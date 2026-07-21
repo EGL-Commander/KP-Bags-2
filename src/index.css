@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+@theme {
+  --color-kp-blue-50: #dbeefd; /* Deeper, richer light blue background */
+  --color-kp-blue-100: #b3dbf8;
+  --color-kp-blue-200: #81c0f4;
+  --color-kp-blue-300: #4fa4f0;
+  --color-kp-blue-400: #2286e1;
+  --color-kp-blue-500: #196ab8;
+  --color-kp-blue-600: #125192; /* Rich, darker royal blue accent */
+  --color-kp-blue-700: #0c3b6d;
+  --color-kp-blue-800: #072648;
+  --color-kp-blue-900: #031326; /* Very deep corporate navy black */
+}
+
+@layer base {
+  body {
+    @apply font-sans text-slate-800 bg-white antialiased selection:bg-kp-blue-100 selection:text-kp-blue-900;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-semibold text-kp-blue-900 tracking-tight;
+  }
+}
+
+/* Custom Mega Menu and Nav Styles */
+.mega-menu-shadow {
+  box-shadow: 0 10px 40px -10px rgba(10, 34, 64, 0.08), 0 1px 3px rgba(10, 34, 64, 0.02);
+}
+
+/* Glassmorphism */
+.glass-header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Custom Transitions */
+.transition-all-300 {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Keyframes for animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Slick Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-kp-blue-50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-kp-blue-300 rounded-full hover:bg-kp-blue-400 transition-colors;
+}
+
+/* Image zoom helper */
+.zoom-container {
+  overflow: hidden;
+}
+.zoom-container img {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.zoom-container:hover img {
+  transform: scale(1.08);
+}
+
+/* Full-width responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent horizontal overflow on mobile */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Smooth image lazy loading shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.img-loading {
+  background: linear-gradient(90deg, #dbeefd 25%, #b3dbf8 50%, #dbeefd 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Mobile-friendly touch targets */
+button, a {
+  touch-action: manipulation;
+}
+
+/* Responsive table for product specs */
+@media (max-width: 640px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* Lightbox full-height on mobile */
+@media (max-width: 640px) {
+  .lightbox-img {
+    max-height: 50vh;
+    object-fit: contain;
+  }
+}
+
+/* Hero slide text shadow for readability */
+.slide-text-shadow {
+  text-shadow: 0 2px 12px rgba(3, 19, 38, 0.5);
+}
+
+/* Ensure mega menu doesn't overflow viewport */
+@media (max-width: 1200px) {
+  .mega-menu-panel {
+    left: 0 !important;
+    transform: translateX(0) !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+}
+
