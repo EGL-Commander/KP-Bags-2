@@ -1,88 +1,34 @@
 # =========================
-# Python
-# =========================
-
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Python virtual environments
-venv/
-env/
-ENV/
-.venv/
-
-# Python packaging
-*.egg-info/
-dist/
-build/
-.eggs/
-
-# Testing / coverage
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-.nox/
-
-# Type checking / linters
-.mypy_cache/
-.ruff_cache/
-.pyre/
-
-
-# =========================
-# Django
-# =========================
-
-# Local settings
-local_settings.py
-
-# Django logs
-*.log
-
-# Django static files
-staticfiles/
-static_root/
-
-# Uploaded media files
-media/
-
-# Collected static files
-staticfiles/
-
-
-# =========================
-# Environment Variables
+# Environment Variables / Secrets
 # =========================
 
 .env
 .env.*
 !.env.example
 
+# Credentials / private keys
+*.pem
+*.key
+*.crt
+secrets/
+credentials/
+*_credentials.json
+
 
 # =========================
-# SQLite Database
-# =========================
-
-*.sqlite3
-*.sqlite3-journal
-db.sqlite3
-
-
-# =========================
-# Node.js
+# Node.js / Backend
 # =========================
 
 node_modules/
 
 # Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Package manager files
+# Package manager caches
 .npm/
 .yarn/
 .pnpm-store/
@@ -92,30 +38,75 @@ dist/
 build/
 out/
 
-# Framework-specific generated folders
-.next/
-.nuxt/
-.svelte-kit/
-.cache/
-
-# Coverage
-.nyc_output/
+# Test / coverage
 coverage/
+.nyc_output/
 
 
 # =========================
-# Frontend / Tooling
+# SQLite Databases
+# =========================
+
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.sqlite3-journal
+
+# Specifically your local database
+kp_bags.db
+
+
+# =========================
+# Frontend / Vite / Tooling
 # =========================
 
 .vite/
 .parcel-cache/
 .turbo/
+.cache/
 
-# Environment files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.next/
+.nuxt/
+.svelte-kit/
+
+
+# =========================
+# Python
+# =========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+venv/
+env/
+ENV/
+.venv/
+
+*.egg-info/
+.eggs/
+
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+.mypy_cache/
+.ruff_cache/
+.pyre/
+
+
+# =========================
+# Django
+# =========================
+
+local_settings.py
+staticfiles/
+static_root/
+media/
 
 
 # =========================
@@ -131,7 +122,6 @@ coverage/
 .idea/
 *.iml
 
-# Sublime Text
 *.sublime-workspace
 *.sublime-project
 
@@ -140,20 +130,16 @@ coverage/
 # Operating System
 # =========================
 
-# Windows
 Thumbs.db
 ehthumbs.db
 Desktop.ini
-
-# macOS
 .DS_Store
 
-# Linux
 *~
 
 
 # =========================
-# Temporary Files
+# Temporary / Backup Files
 # =========================
 
 *.tmp
@@ -161,6 +147,5 @@ Desktop.ini
 *.swp
 *.swo
 
-# Backup files
 *.bak
 *.backup

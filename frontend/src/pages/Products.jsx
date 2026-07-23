@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Search, ArrowRight, Layers, SlidersHorizontal } from 'lucide-react';
-import { categories, products } from '../data/productsData';
+import { categories } from '../data/productsData';
+import { getProducts } from '../services/productService';
 import ProductImage from '../components/ProductImage';
 
 export default function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [products, setProducts] = useState([]);
 
   // Read URL query parameter if present
   useEffect(() => {
@@ -18,6 +20,14 @@ export default function Products() {
       setActiveCategory('all');
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    getProducts()
+      .then(setProducts)
+      .catch(error => {
+        console.error("Failed to load products:", error);
+      });
+  }, []);
 
   const handleCategoryChange = (catId) => {
     setActiveCategory(catId);

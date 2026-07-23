@@ -1,3 +1,16 @@
+const productImages = {
+  "type-a-b-c": "/fibc-type-a.jpeg",
+  "baffle-bag-q-bag": "/baffle-bag.jpeg",
+  "ventilated-fibc": "/Ventilated Agricultural Bags.png",
+  "container-liner": "/Container Stuffing Dock.png",
+  "anti-trip-mesh": "/Anti-Sifting.png",
+  "circular-fabric": "/high-speed-circular-loom.jpg",
+  "pp-woven-fabric": "/high-speed-circular-loom.jpg",
+  "sulzer-flat-fabric": "/high-speed-circular-loom.jpg",
+  "ventilated-fabric": "/Ventilated Agricultural Bags.png",
+  "stretch-film": "/Accelerated.png"
+};
+
 export const categories = [
   {
     id: "fibc",
@@ -103,7 +116,7 @@ export const products = categories.reduce((acc, cat) => {
       applications: getAppsForProduct(sub.slug),
 
       // Product Image
-      image: `/images/products/${sub.slug}.webp`
+      image: productImages[sub.slug] || "/logo.jpg"
     });
   });
   return acc;

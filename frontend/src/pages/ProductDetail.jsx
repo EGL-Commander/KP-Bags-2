@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Send, CheckCircle2, ChevronRight, Layers, FileSpreadsheet } from 'lucide-react';
-import { products } from '../data/productsData';
+import { getProduct, submitInquiry } from '../services/productService';
 import ProductImage from '../components/ProductImage';
 
 export default function ProductDetail() {
@@ -23,26 +23,39 @@ export default function ProductDetail() {
 
   // Find product by slug
   useEffect(() => {
-    const foundProduct = products.find(p => p.slug === slug);
-    if (foundProduct) {
-      setProduct(foundProduct);
-      setFormData(prev => ({
-        ...prev,
-        message: `Hello, I am interested in your ${foundProduct.name}. Please send me the technical drawings, specifications sheet, and B2B wholesale pricing parameters.`
-      }));
+    getProduct(slug).then(foundProduct => {
+      if (foundProduct) {
+        setProduct(foundProduct);
+
+        setFormData(prev => ({
+          ...prev,
+          message: `Hello, I am interested in your ${foundProduct.name}. Please send me the technical drawings, specifications sheet, and B2B wholesale pricing parameters.`
+        }));
+      } else {
+        setProduct(null);
+      }
+
       setIsSubmitted(false);
       setErrorMsg('');
-    } else {
-      setProduct(null);
-    }
+    });
   }, [slug]);
 
+  // IMPORTANT: this must come before any code using product.categoryId
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center space-y-6">
-        <h2 className="text-2xl font-bold text-kp-blue-900">Product Not Found</h2>
-        <p className="text-slate-500 max-w-md mx-auto">We couldn't find the product page you are looking for. It might have been relocated.</p>
-        <Link to="/products" className="inline-flex items-center gap-2 bg-kp-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-kp-blue-700 transition-colors">
+        <h2 className="text-2xl font-bold text-kp-blue-900">
+          Product Not Found
+        </h2>
+
+        <p className="text-slate-500 max-w-md mx-auto">
+          We couldn't find the product page you are looking for.
+        </p>
+
+        <Link
+          to="/products"
+          className="inline-flex items-center gap-2 bg-kp-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold"
+        >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Catalog</span>
         </Link>
@@ -50,56 +63,53 @@ export default function ProductDetail() {
     );
   }
 
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, phone, company, quantity, message } = formData;
-    
+
+    const {
+      name,
+      email,
+      phone,
+      company,
+      quantity,
+      message
+    } = formData;
+
     if (!name || !email || !phone || !message) {
       setErrorMsg('Please fill in all required fields (*).');
       return;
     }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setErrorMsg('Please enter a valid email address.');
-      return;
+    try {
+      const result = await submitInquiry({
+        productSlug: product.slug,
+        name,
+        email,
+        phone,
+        company,
+        quantity,
+        message
+      });
+
+      if (!result.success) {
+        setErrorMsg(result.message);
+        return;
+      }
+
+      setIsSubmitted(true);
+      setErrorMsg('');
+
+    } catch (error) {
+      setErrorMsg(
+        'Unable to submit your inquiry. Please try again later.'
+      );
     }
-
-    // Compile message content for WhatsApp
-    const messageText = `*New B2B Product Inquiry - KP BIG BAGS*\n\n` +
-                        `*Product:* ${product.name}\n` +
-                        `*Category:* ${product.categoryName}\n` +
-                        `*Name:* ${name}\n` +
-                        `*Email:* ${email}\n` +
-                        `*Phone:* ${phone}\n` +
-                        `*Company:* ${company || 'N/A'}\n` +
-                        `*Quantity Needed:* ${quantity || 'N/A'}\n` +
-                        `*Requirements:* ${message}`;
-
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=918840575264&text=${encodeURIComponent(messageText)}`;
-    
-    // Redirect to WhatsApp in a new tab
-    window.open(whatsappUrl, '_blank');
-
-    // Reset Form Data
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      company: '',
-      quantity: '',
-      message: `Hello, I am interested in your ${product.name}. Please send me the technical drawings, specifications sheet, and B2B wholesale pricing parameters.`
-    });
-
-    // Successful mock submission
-    setIsSubmitted(true);
-    setErrorMsg('');
   };
 
   return (
