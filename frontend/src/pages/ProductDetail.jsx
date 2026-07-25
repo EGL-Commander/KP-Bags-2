@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Send, CheckCircle2, ChevronRight, Layers, FileSpreadsheet } from 'lucide-react';
+import { ArrowLeft, Send, CheckCircle2, ChevronRight, Layers, FileSpreadsheet, X, ZoomIn } from 'lucide-react';
 import { getProduct, submitInquiry } from '../services/productService';
 import ProductImage from '../components/ProductImage';
 
@@ -8,6 +8,17 @@ export default function ProductDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+
+  // Keyboard support: Esc to close
+  useEffect(() => {
+    if (!isLightboxOpen) return;
+    const handleKey = (e) => {
+      if (e.key === 'Escape') setIsLightboxOpen(false);
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [isLightboxOpen]);
   
   // Inquiry Form State
   const [formData, setFormData] = useState({
@@ -81,12 +92,27 @@ export default function ProductDetail() {
       message
     } = formData;
 
-    if (!name || !email || !phone || !message) {
-      setErrorMsg('Please fill in all required fields (*).');
+    if (!name.trim() || name.trim().length < 2) {
+      setErrorMsg('Please enter a valid name (min 2 characters).');
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      setErrorMsg('Please enter a valid email address.');
+      return;
+    }
+    const phoneRegex = /^\+?[\d\s-]{10,}$/;
+    if (!phoneRegex.test(phone.trim())) {
+      setErrorMsg('Please enter a valid phone number (min 10 digits).');
+      return;
+    }
+    if (!message.trim() || message.trim().length < 10) {
+      setErrorMsg('Please enter a detailed message (min 10 characters).');
       return;
     }
 
     try {
+      // 1. Save to Database for Admin panel
       const result = await submitInquiry({
         productSlug: product.slug,
         name,
@@ -102,6 +128,31 @@ export default function ProductDetail() {
         return;
       }
 
+      // 2. Compile message content for WhatsApp
+      const messageText = `*New Product Inquiry - KP BIG BAGS*\n\n` +
+                          `*Product:* ${product.name} (${product.slug})\n` +
+                          `*Name:* ${name}\n` +
+                          `*Email:* ${email}\n` +
+                          `*Phone:* ${phone}\n` +
+                          `*Company:* ${company || 'N/A'}\n` +
+                          `*Qty Required:* ${quantity || 'N/A'}\n` +
+                          `*Message:* ${message}`;
+
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=918840575264&text=${encodeURIComponent(messageText)}`;
+      
+      // Redirect to WhatsApp in a new tab
+      window.open(whatsappUrl, '_blank');
+
+      // 3. Reset form data and show success message
+      setFormData(prev => ({
+        ...prev,
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        quantity: '',
+        message: `Hello, I am interested in your ${product.name}. Please send me the technical drawings, specifications sheet, and B2B wholesale pricing parameters.`
+      }));
       setIsSubmitted(true);
       setErrorMsg('');
 
@@ -159,10 +210,18 @@ export default function ProductDetail() {
               </div>
 
               {/* Product Graphic Representation */}
-              <div className="w-full h-64 sm:h-80 bg-kp-blue-50 border border-kp-blue-100 rounded-2xl flex items-center justify-center relative overflow-hidden">
+              <div 
+                className="w-full h-64 sm:h-80 bg-kp-blue-50 border border-kp-blue-100 rounded-2xl flex items-center justify-center relative overflow-hidden cursor-pointer group"
+                onClick={() => setIsLightboxOpen(true)}
+              >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-kp-blue-100/30 rounded-full blur-xl" />
-                <ProductImage src={product.image} alt={product.name} className="w-32 h-32" />
-                <div className="absolute bottom-4 left-4 bg-kp-blue-900 text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider">
+                <ProductImage src={product.image} alt={product.name} className="w-32 h-32 group-hover:scale-110 transition-transform duration-500 relative z-10" />
+                <div className="absolute inset-0 bg-kp-blue-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
+                  <div className="bg-white/90 text-kp-blue-900 px-4 py-2 rounded-full flex items-center gap-2 font-bold text-xs shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                    <ZoomIn className="w-4 h-4" /> View Full Image
+                  </div>
+                </div>
+                <div className="absolute bottom-4 left-4 bg-kp-blue-900 text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider z-10">
                   Industrial Grade Polypropylene
                 </div>
               </div>
@@ -185,8 +244,8 @@ export default function ProductDetail() {
                     <span>Technical Specifications</span>
                   </h3>
                   
-                  <div className="border border-slate-100 rounded-xl overflow-hidden shadow-sm">
-                    <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                  <div className="border border-slate-100 rounded-xl overflow-x-auto shadow-sm admin-scrollbar">
+                    <table className="w-full text-left border-collapse text-xs sm:text-sm whitespace-nowrap sm:whitespace-normal">
                       <thead>
                         <tr className="bg-kp-blue-50 text-kp-blue-900 font-bold border-b border-kp-blue-100">
                           <th className="p-3 sm:p-4 w-1/3">Parameter</th>
@@ -351,6 +410,43 @@ export default function ProductDetail() {
         </div>
       </section>
 
+      {/* Lightbox Modal */}
+      {isLightboxOpen && (
+        <div
+          className="fixed inset-0 bg-black/95 flex flex-col z-[100] backdrop-blur-sm animate-fade-in select-none"
+          role="dialog"
+          aria-modal="true"
+        >
+          {/* Top Bar */}
+          <div className="absolute top-0 inset-x-0 p-4 md:p-6 flex justify-between items-start z-50">
+            <div className="text-white drop-shadow-md">
+              <h3 className="text-xl md:text-2xl font-bold">{product.name}</h3>
+              <span className="text-xs md:text-sm uppercase tracking-wider text-kp-blue-300">
+                {product.categoryName}
+              </span>
+            </div>
+            <button
+              onClick={() => setIsLightboxOpen(false)}
+              className="p-3 text-white bg-white/10 hover:bg-white/20 hover:text-red-400 rounded-full transition-colors backdrop-blur-md border border-white/10"
+              title="Close (Esc)"
+            >
+              <X className="w-6 h-6 md:w-8 md:h-8" />
+            </button>
+          </div>
+
+          {/* Center Image */}
+          <div 
+            className="flex-1 flex items-center justify-center p-4 md:p-12 w-full h-full relative"
+            onClick={() => setIsLightboxOpen(false)} 
+          >
+            <ProductImage
+              src={product.image}
+              alt={product.name}
+              className="max-h-[85vh] max-w-[90vw] object-contain drop-shadow-2xl animate-fade-in"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

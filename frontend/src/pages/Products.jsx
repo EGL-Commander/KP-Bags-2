@@ -66,18 +66,18 @@ export default function Products() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            {/* Left Sidebar Filter (Desktop) */}
+            {/* Left Sidebar Filter (Responsive) */}
             <div className="lg:col-span-3 space-y-6">
-              <div className="bg-white border border-kp-blue-100 p-6 rounded-2xl shadow-sm">
-                <div className="flex items-center gap-2 border-b border-kp-blue-100 pb-3 mb-4">
+              <div className="bg-white border-y sm:border border-kp-blue-100 p-4 sm:p-6 sm:rounded-2xl shadow-sm -mx-4 sm:mx-0">
+                <div className="flex items-center gap-2 border-b border-kp-blue-100 pb-3 mb-4 hidden lg:flex">
                   <SlidersHorizontal className="w-4 h-4 text-kp-blue-600" />
                   <h3 className="font-bold text-kp-blue-900 text-sm uppercase tracking-wider">Product Filter</h3>
                 </div>
 
-                <div className="flex flex-col gap-1.5">
+                <div className="flex flex-row lg:flex-col gap-2 overflow-x-auto admin-scrollbar pb-2 lg:pb-0 px-4 sm:px-0 -mx-4 sm:mx-0">
                   <button 
                     onClick={() => handleCategoryChange('all')}
-                    className={`w-full text-left py-2 px-3 rounded-lg text-xs font-semibold transition-all ${activeCategory === 'all' ? 'bg-kp-blue-600 text-white shadow-sm' : 'text-slate-600 hover:bg-kp-blue-50/50 hover:text-kp-blue-600'}`}
+                    className={`shrink-0 lg:w-full text-left py-2 px-4 lg:px-3 rounded-full lg:rounded-lg text-xs font-semibold transition-all border lg:border-transparent ${activeCategory === 'all' ? 'bg-kp-blue-600 text-white border-kp-blue-600 shadow-sm' : 'bg-white lg:bg-transparent border-slate-200 text-slate-600 hover:bg-kp-blue-50/50 hover:text-kp-blue-600'}`}
                   >
                     All Categories ({products.length})
                   </button>
@@ -88,10 +88,10 @@ export default function Products() {
                       <button 
                         key={cat.id}
                         onClick={() => handleCategoryChange(cat.id)}
-                        className={`w-full text-left py-2 px-3 rounded-lg text-xs font-semibold transition-all flex justify-between items-center ${activeCategory === cat.id ? 'bg-kp-blue-600 text-white shadow-sm' : 'text-slate-600 hover:bg-kp-blue-50/50 hover:text-kp-blue-600'}`}
+                        className={`shrink-0 lg:w-full text-left py-2 px-4 lg:px-3 rounded-full lg:rounded-lg text-xs font-semibold transition-all flex justify-between items-center gap-2 border lg:border-transparent ${activeCategory === cat.id ? 'bg-kp-blue-600 text-white border-kp-blue-600 shadow-sm' : 'bg-white lg:bg-transparent border-slate-200 text-slate-600 hover:bg-kp-blue-50/50 hover:text-kp-blue-600'}`}
                       >
-                        <span className="truncate pr-2">{cat.name}</span>
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${activeCategory === cat.id ? 'bg-white/20 text-white' : 'bg-kp-blue-50 text-kp-blue-600 group-hover:bg-kp-blue-100'}`}>{count}</span>
+                        <span className="truncate">{cat.name}</span>
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${activeCategory === cat.id ? 'bg-white/20 text-white' : 'bg-slate-100 lg:bg-kp-blue-50 text-slate-600 lg:text-kp-blue-600'}`}>{count}</span>
                       </button>
                     );
                   })}

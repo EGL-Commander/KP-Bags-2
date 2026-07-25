@@ -4,30 +4,62 @@ import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 import db from "./db.js";
 import { products } from "./productsData.js";
+import adminRoutes from "./routes/admin.js";
 
-dotenv.config();
+dotenv.config({ path: "env" });
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/admin", adminRoutes);
+
 app.get("/api/products", (req, res) => {
-  res.json(products);
+  try {
+    const products = db.prepare("SELECT * FROM products ORDER BY category_id, name").all();
+    const formattedProducts = products.map(p => ({
+      ...p,
+      categoryId: p.category_id,
+      categoryName: p.category_name,
+      specifications: p.specifications ? JSON.parse(p.specifications) : {},
+      applications: p.applications ? JSON.parse(p.applications) : []
+    }));
+    res.json(formattedProducts);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch products" });
+  }
 });
 
 app.get("/api/products/:slug", (req, res) => {
-  const product = products.find(
-    (p) => p.slug === req.params.slug
-  );
+  try {
+    const product = db.prepare("SELECT * FROM products WHERE slug = ?").get(req.params.slug);
 
-  if (!product) {
-    return res.status(404).json({
-      message: "Product not found"
-    });
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const formattedProduct = {
+      ...product,
+      categoryId: product.category_id,
+      categoryName: product.category_name,
+      specifications: product.specifications ? JSON.parse(product.specifications) : {},
+      applications: product.applications ? JSON.parse(product.applications) : []
+    };
+
+    res.json(formattedProduct);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch product" });
   }
+});
 
-  res.json(product);
+app.get("/api/gallery", (req, res) => {
+  try {
+    const items = db.prepare("SELECT * FROM gallery ORDER BY created_at DESC").all();
+    res.json(items);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch gallery" });
+  }
 });
 
 app.post("/api/inquiries", async (req, res) => {

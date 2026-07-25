@@ -28,81 +28,6 @@ import { X, ChevronLeft, ChevronRight, ZoomIn, Eye } from 'lucide-react';
  * ============================================================================
  */
 
-const galleryItems = [
-  {
-    id: 1,
-    type: 'bags',
-    title: 'Type-A Standard FIBC Bags',
-    desc: 'Heavy-duty 1000kg load capacity standard bags stored in warehouse.',
-    src: '/public/fibc-type-a.jpeg',
-    alt: 'Type-A standard FIBC jumbo bag with four corner lifting loops',
-  },
-  {
-    id: 2,
-    type: 'bags',
-    title: 'Baffle Q-Bags Stack',
-    desc: 'Baffle bags maintaining neat square profiles under test loads.',
-    src: '/public/baffle-bag.jpeg',
-    alt: 'Baffle FIBC Q-bag diagram showing internal baffle panels and loops',
-  },
-  {
-    id: 3,
-    type: 'bags',
-    title: 'Ventilated Agricultural Bags',
-    desc: 'Ventilated FIBC bags packed with crops showing breathability strips.',
-    src: '/public/Ventilated Agricultural Bags.png',
-    alt: 'Ventilated mesh FIBC bags filled with fresh potatoes in a farm field',
-  },
-  {
-    id: 4,
-    type: 'factory',
-    title: 'High-Speed Circular Looms',
-    desc: 'Weaving area with circular looms running PP spools continuously.',
-    src: '/public/high-speed-circular-loom.jpg',
-    alt: 'High-speed circular looms weaving polypropylene fabric',
-  },
-  {
-    id: 5,
-    type: 'factory',
-    title: 'Tape Extrusion Extruder',
-    desc: 'Polypropylene melt extrusion and slitting line winding tape rolls.',
-    src: '/public/Tape Extrusion Extruder.png',
-    alt: 'Polypropylene tape extrusion line winding tape rolls',
-  },
-  {
-    id: 6,
-    type: 'factory',
-    title: 'Positive Pressure Sew Block',
-    desc: 'Cleanroom sewing lines with HEPA filtration and personnel hoods.',
-    src: '/public/Positive Pressure Sew Block.png',
-    alt: 'Cleanroom sewing line for FIBC bag manufacturing',
-  },
-  {
-    id: 7,
-    type: 'testing',
-    title: 'Tensile Strength Test Bench',
-    desc: 'Calibrated electronic mechanical tester testing loop seam breakage.',
-    src: '/public/Tensile Strength Test Bench.png',
-    alt: 'Electronic tensile strength testing bench for FIBC loop seams',
-  },
-  {
-    id: 8,
-    type: 'testing',
-    title: 'UV Weather-Ometer Cabinet',
-    desc: 'Accelerated solar exposure chambers testing fabric UV retention.',
-    src: '/public/UV Weather-Ometer Cabinet.png',
-    alt: 'UV weather-ometer chamber for accelerated fabric weathering tests',
-  },
-  {
-    id: 9,
-    type: 'shipping',
-    title: 'Container Stuffing Dock',
-    desc: 'Loading pallets of vacuum-compressed jumbo bags into export containers.',
-    src: '/public/Container Stuffing Dock.png',
-    alt: 'Workers loading compressed FIBC bag pallets into a shipping container',
-  },
-];
-
 const filters = [
   { id: 'all', name: 'All Photos' },
   { id: 'bags', name: 'FIBC Bags' },
@@ -112,9 +37,17 @@ const filters = [
 ];
 
 export default function Gallery() {
+  const [galleryItems, setGalleryItems] = useState([]);
   const [activeFilter, setActiveFilter] = useState('all');
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [loadedImgs, setLoadedImgs] = useState({});
+
+  useEffect(() => {
+    fetch(`http://${window.location.hostname}:5000/api/gallery?t=${new Date().getTime()}`, { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => setGalleryItems(data))
+      .catch(err => console.error("Error fetching gallery:", err));
+  }, []);
 
   const filteredItems =
     activeFilter === 'all'
@@ -258,64 +191,73 @@ export default function Gallery() {
       {/* Lightbox Modal */}
       {lightboxIndex !== null && (
         <div
-          className="fixed inset-0 bg-kp-blue-950/95 flex flex-col justify-between z-50 py-8 px-4 select-none"
+          className="fixed inset-0 bg-black/95 flex flex-col z-[100] backdrop-blur-sm animate-fade-in select-none"
           role="dialog"
           aria-modal="true"
         >
-          {/* Lightbox Header */}
-          <div className="max-w-7xl mx-auto w-full flex justify-between items-center text-white">
-            <div className="min-w-0">
-              <h3 className="text-lg font-bold truncate">
-                {filteredItems[lightboxIndex].title}
-              </h3>
-              <span className="text-[10px] text-kp-blue-300 font-bold uppercase tracking-wider block mt-0.5">
+          {/* Top Bar */}
+          <div className="absolute top-0 inset-x-0 p-4 md:p-6 flex justify-between items-start z-50">
+            <div className="text-white drop-shadow-md">
+              <h3 className="text-xl md:text-2xl font-bold">{filteredItems[lightboxIndex].title}</h3>
+              <span className="text-xs md:text-sm uppercase tracking-wider text-kp-blue-300">
                 Category: {filteredItems[lightboxIndex].type}
               </span>
             </div>
             <button
               onClick={closeLightbox}
-              aria-label="Close gallery"
-              className="text-white hover:text-kp-blue-300 focus:outline-none p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors border border-white/10 shrink-0"
+              className="p-3 text-white bg-white/10 hover:bg-white/20 hover:text-red-400 rounded-full transition-colors backdrop-blur-md border border-white/10"
+              title="Close (Esc)"
             >
-              <X className="w-6 h-6" />
+              <X className="w-6 h-6 md:w-8 md:h-8" />
             </button>
           </div>
 
-          {/* Lightbox Center */}
-          <div className="max-w-4xl mx-auto w-full flex items-center justify-between gap-4 py-8">
-            <button
-              onClick={() => navigateLightbox(-1)}
-              aria-label="Previous photo"
-              className="text-white hover:text-kp-blue-300 focus:outline-none p-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/10 shrink-0"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-
-            <div className="flex-1 flex flex-col justify-center items-center">
-              <div className="w-full max-h-[60vh] rounded-xl overflow-hidden bg-kp-blue-900 flex items-center justify-center">
-                <img
-                  key={filteredItems[lightboxIndex].id}
-                  src={filteredItems[lightboxIndex].src}
-                  alt={filteredItems[lightboxIndex].alt}
-                  className="max-h-[60vh] w-auto object-contain"
-                />
-              </div>
-              <p className="text-sm text-kp-blue-100 max-w-md text-center leading-relaxed font-light mt-6">
-                {filteredItems[lightboxIndex].desc}
-              </p>
+          {/* Navigation Left - Full Height Clickable Area */}
+          <button 
+            onClick={(e) => { e.stopPropagation(); navigateLightbox(-1); }}
+            className="absolute left-0 inset-y-0 w-1/6 md:w-32 flex items-center justify-start px-4 md:px-8 text-white/50 hover:text-white hover:bg-gradient-to-r from-black/50 to-transparent transition-all z-40 group focus:outline-none"
+            title="Previous Photo"
+          >
+            <div className="p-3 rounded-full bg-black/50 group-hover:scale-110 transition-transform border border-white/10">
+              <ChevronLeft className="w-8 h-8 md:w-12 md:h-12" />
             </div>
+          </button>
 
-            <button
-              onClick={() => navigateLightbox(1)}
-              aria-label="Next photo"
-              className="text-white hover:text-kp-blue-300 focus:outline-none p-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/10 shrink-0"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
+          {/* Navigation Right - Full Height Clickable Area */}
+          <button 
+            onClick={(e) => { e.stopPropagation(); navigateLightbox(1); }}
+            className="absolute right-0 inset-y-0 w-1/6 md:w-32 flex items-center justify-end px-4 md:px-8 text-white/50 hover:text-white hover:bg-gradient-to-l from-black/50 to-transparent transition-all z-40 group focus:outline-none"
+            title="Next Photo"
+          >
+            <div className="p-3 rounded-full bg-black/50 group-hover:scale-110 transition-transform border border-white/10">
+              <ChevronRight className="w-8 h-8 md:w-12 md:h-12" />
+            </div>
+          </button>
+
+          {/* Center Image */}
+          <div 
+            className="flex-1 flex flex-col items-center justify-center p-4 md:p-12 w-full h-full relative"
+            onClick={closeLightbox} 
+          >
+            <img
+              key={filteredItems[lightboxIndex].id}
+              src={filteredItems[lightboxIndex].src}
+              alt={filteredItems[lightboxIndex].alt}
+              className="max-h-[75vh] max-w-[90vw] object-contain drop-shadow-2xl animate-fade-in"
+              onClick={(e) => e.stopPropagation()} 
+            />
+            
+            {filteredItems[lightboxIndex].desc && (
+              <div className="absolute bottom-12 inset-x-0 mx-auto max-w-3xl text-center px-4" onClick={(e) => e.stopPropagation()}>
+                <p className="text-white/90 bg-black/60 backdrop-blur-md p-4 md:p-6 rounded-2xl text-sm md:text-base inline-block border border-white/10 shadow-xl">
+                  {filteredItems[lightboxIndex].desc}
+                </p>
+              </div>
+            )}
           </div>
-
-          {/* Lightbox Footer */}
-          <div className="text-center text-kp-blue-200 text-xs font-semibold">
+          
+          {/* Photo Counter */}
+          <div className="absolute bottom-4 inset-x-0 text-center text-white/50 text-xs font-medium z-50 tracking-widest uppercase">
             Photo {lightboxIndex + 1} of {filteredItems.length}
           </div>
         </div>

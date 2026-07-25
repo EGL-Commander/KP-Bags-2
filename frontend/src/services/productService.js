@@ -1,7 +1,7 @@
-const API_URL = "http://localhost:5000/api";
+const API_URL = `http://${window.location.hostname}:5000/api`;
 
 export async function getProducts() {
-  const response = await fetch(`${API_URL}/products`);
+  const response = await fetch(`${API_URL}/products?t=${new Date().getTime()}`, { cache: 'no-store' });
 
   if (!response.ok) {
     throw new Error("Failed to fetch products");
@@ -11,7 +11,7 @@ export async function getProducts() {
 }
 
 export async function getProduct(slug) {
-  const response = await fetch(`${API_URL}/products/${slug}`);
+  const response = await fetch(`${API_URL}/products/${slug}?t=${new Date().getTime()}`, { cache: 'no-store' });
 
   if (!response.ok) {
     return null;

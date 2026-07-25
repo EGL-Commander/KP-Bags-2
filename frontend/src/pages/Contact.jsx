@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle2, MessageCircle } from 'lucide-react';
+import { submitInquiry } from '../services/productService';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -17,46 +18,68 @@ export default function Contact() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     const { name, email, phone, subject, message } = formData;
 
-    if (!name || !email || !phone || !message) {
-      setErrorMsg('Please fill in all required fields (*).');
+    if (!name.trim() || name.trim().length < 2) {
+      setErrorMsg('Please enter a valid name (min 2 characters).');
       return;
     }
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(email.trim())) {
       setErrorMsg('Please enter a valid email address.');
       return;
     }
+    const phoneRegex = /^\+?[\d\s-]{10,}$/;
+    if (!phoneRegex.test(phone.trim())) {
+      setErrorMsg('Please enter a valid phone number (min 10 digits).');
+      return;
+    }
+    if (!message.trim() || message.trim().length < 10) {
+      setErrorMsg('Please enter a detailed message (min 10 characters).');
+      return;
+    }
 
-    // Compile message content for WhatsApp
-    const messageText = `*New B2B Inquiry - KP BIG BAGS*\n\n` +
-                        `*Name:* ${name}\n` +
-                        `*Email:* ${email}\n` +
-                        `*Phone:* ${phone}\n` +
-                        `*Subject:* ${subject || 'B2B Wholesale Inquiry'}\n` +
-                        `*Message:* ${message}`;
+    try {
+      // 1. Save to Database for Admin panel
+      await submitInquiry({
+        productSlug: 'General Contact: ' + (subject || 'Inquiry'),
+        name,
+        email,
+        phone,
+        company: '',
+        quantity: '',
+        message
+      });
 
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=918840575264&text=${encodeURIComponent(messageText)}`;
-    
-    // Redirect to WhatsApp in a new tab
-    window.open(whatsappUrl, '_blank');
+      // 2. Compile message content for WhatsApp
+      const messageText = `*New B2B Inquiry - KP BIG BAGS*\n\n` +
+                          `*Name:* ${name}\n` +
+                          `*Email:* ${email}\n` +
+                          `*Phone:* ${phone}\n` +
+                          `*Subject:* ${subject || 'B2B Wholesale Inquiry'}\n` +
+                          `*Message:* ${message}`;
 
-    // Reset Form Data
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: 'B2B Wholesale Inquiry',
-      message: ''
-    });
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=918840575264&text=${encodeURIComponent(messageText)}`;
+      
+      // Redirect to WhatsApp in a new tab
+      window.open(whatsappUrl, '_blank');
 
-    // Success Simulation
-    setIsSubmitted(true);
-    setErrorMsg('');
+      // 3. Reset Form Data and show success
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        subject: 'B2B Wholesale Inquiry',
+        message: ''
+      });
+
+      setIsSubmitted(true);
+      setErrorMsg('');
+    } catch (error) {
+      setErrorMsg('Something went wrong. Please try again.');
+    }
   };
 
   return (
