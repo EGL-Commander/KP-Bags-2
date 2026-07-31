@@ -16,21 +16,18 @@ export default function Footer() {
       id: 'kp-bigbags',
       name: 'KP BIG BAGS',
       logo: '/logo.jpg',
+      logoHref: 'https://kpbigbags.com/',
       address: 'Orchid Villa, Reliance Petrol Pump, Sanand-Viramgam Highway, Dist-Ahmedabad, Gujarat-382110',
       mapUrl: 'https://www.google.com/maps/search/?api=1&query=Orchid+Villa+Reliance+Petrol+Pump+Sanand-Viramgam+Highway+Dist-Ahmedabad+Gujarat-382110',
       phone: '+91 88405 75264',
       phoneHref: 'tel:+918840575264',
       email: 'sales@kpbigbags.com',
-      social: {
-        facebook: 'https://www.facebook.com/people/KP-BIG-BAGS/61551780760713/',
-        linkedin: 'https://in.linkedin.com/in/kp-big-bags-a49b04288',
-        whatsapp: 'https://api.whatsapp.com/send?phone=918840575264&text=KP%20Big%20Bags',
-      },
+      social: {},
     },
     {
       id: 'maple-eco-packs',
       name: 'Maple Eco Packs Inc',
-      logo: '/maple eco logo-2.png',
+      logo: '/logo 2.jpg',
       address: '36, Ball Crescent, Whitby, L1P 1W6, Ontario, Canada.',
       mapUrl: 'https://mapleecopacks.ca/#',
       phone: '+1 437 875 1203',
@@ -39,14 +36,14 @@ export default function Footer() {
       social: {},
     },
     {
-      id: 'company-3',
-      name: 'Company 3', // TODO: replace with actual company name
-      logo: '/company-3-logo.png', // TODO: replace with actual logo path
-      address: 'Address to be updated', // TODO: replace with actual address
+      id: 'Big Bags Uruguay',
+      name: 'Uruguay BIG BAGS', // TODO: replace with actual company name
+      logo: '/logo 3.jpg', // TODO: replace with actual logo path
+      address: 'Jose Pedro Varela 703, Apto 1,Las Piedras, Canelones, Uruguay', // TODO: replace with actual address
       mapUrl: '#',
-      phone: '+00 000 000 0000', // TODO: replace with actual phone
-      phoneHref: 'tel:+',
-      email: 'info@company3.com', // TODO: replace with actual email
+      phone: '+598 94407297', // TODO: replace with actual phone
+      phoneHref: 'tel:+59894407297',
+      email: 'Ventas@bigbagsuruguay.com', // TODO: replace with actual email
       social: {},
     },
   ];
@@ -102,6 +99,19 @@ export default function Footer() {
               className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-kp-blue-900 border border-kp-blue-100 hover:bg-green-500 hover:text-white transition-all duration-300 hover:scale-105"
             >
               <MessageCircle className="w-4 h-4 fill-current text-green-500 hover:text-white" />
+            </a>
+            <a
+              href="https://www.instagram.com/kpbigbags?utm_source=qr&igsh=MWdhNDBqbjF1cWFjZA=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-kp-blue-900 border border-kp-blue-100 hover:bg-gradient-to-r hover:from-pink-500 hover:via-red-500 hover:to-yellow-500 hover:text-white transition-all duration-300 hover:scale-105"
+            >
+            <svg
+              className="w-4 h-4 fill-current"
+              viewBox="0 0 24 24"
+            >
+            <path d="M7.75 2C4.57 2 2 4.57 2 7.75v8.5C2 19.43 4.57 22 7.75 22h8.5C19.43 22 22 19.43 22 16.25v-8.5C22 4.57 19.43 2 16.25 2h-8.5zm0 2h8.5A3.75 3.75 0 0120 7.75v8.5A3.75 3.75 0 0116.25 20h-8.5A3.75 3.75 0 014 16.25v-8.5A3.75 3.75 0 017.75 4zm8.75 1a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6z"/>
+            </svg>
             </a>
           </div>
         </div>
@@ -187,91 +197,118 @@ export default function Footer() {
       </div>
 
       {/* Group Companies Strip: KP Big Bags / Maple Eco Packs / Company 3 */}
-      <div className="max-w-7xl mx-auto border-t border-kp-blue-100 pt-10 mb-8">
-        <h4 className="text-center text-base font-bold text-kp-blue-900 uppercase tracking-wider mb-8">Our Group Companies</h4>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {groupCompanies.map((company) => (
-            <div
-              key={company.id}
-              className="flex flex-col items-center text-center gap-3 bg-white rounded-xl border border-kp-blue-100 p-6"
-            >
-              <img
-                src={company.logo}
-                alt={company.name}
-                className="h-14 w-auto object-contain"
-                onError={(e) => { e.target.style.display = 'none'; }}
-              />
-              <span className="text-sm font-bold text-kp-blue-900">{company.name}</span>
+<div className="max-w-7xl mx-auto border-t border-kp-blue-100 pt-12 mb-8">
+  <div className="text-center mb-10">
+    <h4 className="text-base font-bold text-kp-blue-900 uppercase tracking-wider">
+      Our Group Companies
+    </h4>
+    <div className="w-14 h-[3px] bg-kp-blue-600 mx-auto mt-3 rounded-full" />
+  </div>
 
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+    {groupCompanies.map((company) => (
+      <div
+        key={company.id}
+        className="h-full flex flex-col items-center text-center gap-3 bg-white rounded-2xl border border-kp-blue-100 p-7 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-kp-blue-300 transition-all duration-300"
+      >
+        {/* Fixed-size logo box — every logo (tall, wide, square, or one with
+            extra built-in padding) renders at the exact same visual size */}
+        <div className="h-20 w-[160px] flex items-center justify-center overflow-hidden mb-1">
+          <img
+            src={company.logo}
+            alt={company.name}
+            className="max-h-full max-w-full w-auto h-auto object-contain"
+            onError={(e) => { e.target.style.display = 'none'; }}
+          />
+        </div>
+
+        <span className="text-sm font-bold text-kp-blue-900 tracking-wide">
+          {company.name}
+        </span>
+
+        <div className="w-8 h-px bg-kp-blue-100 my-1" />
+
+        <a
+          href={company.mapUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-start gap-2 text-xs text-slate-600 hover:text-kp-blue-600 transition-colors leading-relaxed"
+        >
+          <MapPin className="w-4 h-4 text-kp-blue-600 shrink-0 mt-0.5" />
+          <span>{company.address}</span>
+        </a>
+
+        <a
+          href={company.phoneHref}
+          className="flex items-center gap-2 text-xs text-slate-600 hover:text-kp-blue-600 transition-colors font-medium"
+        >
+          <Phone className="w-4 h-4 text-kp-blue-600 shrink-0" />
+          <span>{company.phone}</span>
+        </a>
+
+        <a
+          href={`mailto:${company.email}`}
+          className="flex items-center gap-2 text-xs text-slate-600 hover:text-kp-blue-600 transition-colors font-medium"
+        >
+          <Mail className="w-4 h-4 text-kp-blue-600 shrink-0" />
+          <span>{company.email}</span>
+        </a>
+
+        {/* Social icons — only rendered if provided. mt-auto keeps this row
+            pinned to the bottom so every card lines up, even if one company
+            has no socials yet. */}
+        {(company.social.facebook || company.social.linkedin || company.social.whatsapp || company.social.instagram) && (
+          <div className="flex items-center gap-3 mt-auto pt-3">
+            {company.social.facebook && (
               <a
-                href={company.mapUrl}
+                href={company.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-start gap-2 text-xs text-slate-600 hover:text-kp-blue-600 transition-colors leading-relaxed"
+                className="w-8 h-8 rounded-full bg-kp-blue-50 flex items-center justify-center text-kp-blue-900 border border-kp-blue-100 hover:bg-kp-blue-600 hover:text-white hover:scale-110 transition-all duration-300"
               >
-                <MapPin className="w-4 h-4 text-kp-blue-600 shrink-0 mt-0.5" />
-                <span>{company.address}</span>
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
+                </svg>
               </a>
-
+            )}
+            {company.social.linkedin && (
               <a
-                href={company.phoneHref}
-                className="flex items-center gap-2 text-xs text-slate-600 hover:text-kp-blue-600 transition-colors font-medium"
+                href={company.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-full bg-kp-blue-50 flex items-center justify-center text-kp-blue-900 border border-kp-blue-100 hover:bg-kp-blue-600 hover:text-white hover:scale-110 transition-all duration-300"
               >
-                <Phone className="w-4 h-4 text-kp-blue-600 shrink-0" />
-                <span>{company.phone}</span>
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
               </a>
-
+            )}
+            {company.social.whatsapp && (
               <a
-                href={`mailto:${company.email}`}
-                className="flex items-center gap-2 text-xs text-slate-600 hover:text-kp-blue-600 transition-colors font-medium"
+                href={company.social.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-full bg-kp-blue-50 flex items-center justify-center text-kp-blue-900 border border-kp-blue-100 hover:bg-green-500 hover:text-white hover:scale-110 transition-all duration-300"
               >
-                <Mail className="w-4 h-4 text-kp-blue-600 shrink-0" />
-                <span>{company.email}</span>
+                <MessageCircle className="w-3.5 h-3.5 fill-current text-green-500 hover:text-white" />
               </a>
-
-              {/* Social icons — only rendered if provided */}
-              {(company.social.facebook || company.social.linkedin || company.social.whatsapp) && (
-                <div className="flex items-center gap-3 mt-1">
-                  {company.social.facebook && (
-                    <a
-                      href={company.social.facebook}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-8 h-8 rounded-full bg-kp-blue-50 flex items-center justify-center text-kp-blue-900 border border-kp-blue-100 hover:bg-kp-blue-600 hover:text-white transition-all duration-300"
-                    >
-                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                        <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
-                      </svg>
-                    </a>
-                  )}
-                  {company.social.linkedin && (
-                    <a
-                      href={company.social.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-8 h-8 rounded-full bg-kp-blue-50 flex items-center justify-center text-kp-blue-900 border border-kp-blue-100 hover:bg-kp-blue-600 hover:text-white transition-all duration-300"
-                    >
-                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                      </svg>
-                    </a>
-                  )}
-                  {company.social.whatsapp && (
-                    <a
-                      href={company.social.whatsapp}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-8 h-8 rounded-full bg-kp-blue-50 flex items-center justify-center text-kp-blue-900 border border-kp-blue-100 hover:bg-green-500 hover:text-white transition-all duration-300"
-                    >
-                      <MessageCircle className="w-3.5 h-3.5 fill-current text-green-500 hover:text-white" />
-                    </a>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+            )}
+            {company.social.instagram && (
+              <a
+                href={company.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-full bg-kp-blue-50 flex items-center justify-center text-kp-blue-900 border border-kp-blue-100 hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-600 hover:text-white hover:scale-110 transition-all duration-300"
+              >
+                <Instagram className="w-3.5 h-3.5" />
+              </a>
+            )}
+          </div>
+        )}
       </div>
+    ))}
+  </div>
+</div>
 
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto pt-8 border-t border-kp-blue-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">

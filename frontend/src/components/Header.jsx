@@ -160,6 +160,20 @@ export default function Header() {
               </svg>
             </a>
             <a
+              href="https://www.instagram.com/kpbigbags?utm_source=qr&igsh=MWdhNDBqbjF1cWFjZA=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-pink-400 transition-all duration-300 hover:scale-110 flex-shrink-0"
+              title="Instagram"
+            >
+            <svg
+              className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current"
+              viewBox="0 0 24 24"
+            >
+            <path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.65 0 3 1.35 3 3v10c0 1.65-1.35 3-3 3H7c-1.65 0-3-1.35-3-3V7c0-1.65 1.35-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm5.25-3.5a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z"/>
+            </svg>
+            </a>
+            <a
               href="https://api.whatsapp.com/send?phone=918840575264&text=KP%20Big%20Bags"
               target="_blank"
               rel="noopener noreferrer"

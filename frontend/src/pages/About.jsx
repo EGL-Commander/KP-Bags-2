@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, Award, Users, Award as CertificateIcon, Landmark, Star } from 'lucide-react';
+import { ShieldCheck, Award, Users, Award as CertificateIcon, Landmark, Star, FileCheck2 } from 'lucide-react';
 
 export default function About() {
   return (
@@ -48,9 +48,8 @@ export default function About() {
                   industries with zero-contamination guarantees.
                 </p>
                 <p>
-                  Our strategic location in Gujarat provides logistical advantages, connecting us directly to the
-                  ports of Mundra and Kandla. This ensures rapid global delivery and reliable supply chain support
-                  for our clients in Europe, the Americas, Africa, and Asia.
+                  Our strategic location in Gujarat provides significant logistical advantages with seamless connectivity to the major ports of Mundra,Kandla and Nhava Sheva (Jawaharlal Nehru Port), Mumbai. This enables efficient domestic transportation, rapid global shipping, and a reliable supply chain, ensuring timely deliveries to our clients across Europe, the Americas, Africa, Asia, and the Middle East.
+
                 </p>
               </div>
 
@@ -80,7 +79,7 @@ export default function About() {
 
             {/* Right – Manufacturing Image */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="group relative w-full overflow-hidden rounded-2xl shadow-2xl aspect-[3/2]">
+              <div className="group relative w-full overflow-hidden rounded-2xl shadow-2xl aspect-[/2]">
                 <img
                   src="/public/about us.png"
                   alt="KP Big Bags company profile and manufacturing overview"
@@ -151,11 +150,92 @@ export default function About() {
         </div>
       </section>
 
+      {/* ── Certifications Section (List of Certifications) ─────────────
+    Card-style layout: white card, logo(s) on top, cert name/subtitle,
+    and a solid theme-blue button that opens the actual certificate
+    PDF in a new tab when clicked. ───────────────────────────────── */}
+<section className="py-16 sm:py-20 bg-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center max-w-3xl mx-auto space-y-4 mb-12 sm:mb-16">
+      <h2 className="text-3xl sm:text-4xl font-extrabold text-kp-blue-900">
+        List of Certifications
+      </h2>
+      <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-light">
+        KP Big Bags is an <strong>ISO 9001:2015</strong> and <strong>ISO 22000:2018</strong> certified
+        organization, and is also <strong>CE certified</strong> under the EMC &amp; Measuring Instruments
+        Directives — reflecting our commitment to quality, food safety, and international compliance
+        standards since inception.
+      </p>
+    </div>
+
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+      {[
+        {
+          title: 'ISO 9001:2015',
+          subtitle: 'Quality Management System',
+          logos: ['certificates/QRO CERTIFICATE.png'],
+          file: '/certificates/KP BIG BAGS QRO EGAC 2015.pdf',
+        },
+        {
+          title: 'ISO 22000:2018',
+          subtitle: 'Food Safety Management System',
+          logos: ['/certificates/QRO CERTIFICATE.png'],
+          file: '/certificates/KP BIG BAGS QRO EGAC 2018.pdf',
+        },
+        {
+          title: 'CE Compliance Certificate',
+          subtitle: '(European Conformity)',
+          logos: ['/certificates/TSN CERTIFICATE.png', '/certificates/EUAS CERTIFICATE.png'],
+          file: '/certificates/TSN FINAL CE  KP BIG BAGS.pdf',
+        },
+      ].map((cert, idx) => (
+        <div
+          key={idx}
+          className="bg-white border border-slate-100 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-8 flex flex-col items-center text-center"
+        >
+          {/* Logo(s) */}
+          <div className="flex items-center justify-center gap-4 h-40 w-full mb-6 overflow-hidden">
+  {cert.logos.map((logo, logoIdx) => (
+    <img
+      key={logoIdx}
+      src={logo}
+      alt={`${cert.title} certification logo`}
+      className={`object-contain transition-transform duration-300 hover:scale-105 ${
+        cert.logos.length === 1
+          ? "max-h-36 max-w-[220px]"
+          : "max-h-32 max-w-[140px]"
+      }`}
+    />
+  ))}
+</div>
+
+          <h3 className="font-extrabold text-kp-blue-950 text-lg leading-tight">
+            {cert.title}
+          </h3>
+          <p className="text-xs text-slate-500 font-medium mt-1 mb-6">
+            {cert.subtitle}
+          </p>
+
+          {/* Download / View button — opens the actual certificate */}
+          <a
+                  href={cert.file}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-auto w-full bg-kp-blue-600 hover:bg-kp-blue-700 transition-colors duration-200 text-white text-sm font-bold uppercase tracking-wide rounded-md py-3"
+                >
+                  Download
+                </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
       {/* ── Vision & Mission ──────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 bg-white">
+      <section className="py-16 sm:py-20 bg-kp-blue-50/30 border-t border-kp-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
-            <div className="bg-kp-blue-50/20 border border-kp-blue-100 p-8 rounded-2xl space-y-4">
+            <div className="bg-white border border-kp-blue-100 p-8 rounded-2xl space-y-4">
               <h3 className="text-xl font-bold text-kp-blue-900 flex items-center gap-2">
                 <span className="p-1.5 bg-kp-blue-100 rounded-lg text-kp-blue-600">🎯</span>
                 Our Vision
@@ -168,7 +248,7 @@ export default function About() {
               </p>
             </div>
 
-            <div className="bg-kp-blue-50/20 border border-kp-blue-100 p-8 rounded-2xl space-y-4">
+            <div className="bg-white border border-kp-blue-100 p-8 rounded-2xl space-y-4">
               <h3 className="text-xl font-bold text-kp-blue-900 flex items-center gap-2">
                 <span className="p-1.5 bg-kp-blue-100 rounded-lg text-kp-blue-600">🚀</span>
                 Our Mission
@@ -189,7 +269,7 @@ export default function About() {
           panel), so the cards use the image's native 3:2 aspect ratio with
           object-cover — this guarantees ZERO cropping of that text panel on
           any screen size, and no redundant caption overlay is needed. */}
-      <section className="py-16 sm:py-20 bg-kp-blue-50/30 border-t border-kp-blue-100">
+      <section className="py-16 sm:py-20 bg-white border-t border-kp-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto space-y-3 mb-10 sm:mb-14">
             <span className="text-xs sm:text-sm font-extrabold text-kp-blue-600 uppercase tracking-widest block">
