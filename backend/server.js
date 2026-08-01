@@ -6,7 +6,7 @@ import db from "./db.js";
 import { products } from "./productsData.js";
 import adminRoutes from "./routes/admin.js";
 
-dotenv.config({ path: "env" });
+dotenv.config();
 
 const app = express();
 
