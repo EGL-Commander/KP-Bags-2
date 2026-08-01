@@ -22,7 +22,7 @@ const heroSlides = [
       'High-performance Flexible Intermediate Bulk Containers engineered for secure global dry bulk transport.',
     cta: 'Explore FIBC Bags',
     link: '/products?category=fibc',
-    image: '/public/Homepage-banner1.png',
+    image: '/Homepage-banner1.png',
     imageAlt:
       'Workers manufacturing and quality-checking FIBC jumbo bags on the KP Big Bags factory floor',
     focalMobile: 'center 20%',
@@ -37,7 +37,7 @@ const heroSlides = [
       'Multi-color reverse-printed BOPP laminated packaging bags offering premium shelf aesthetics and damp protection.',
     cta: 'Browse BOPP Bags',
     link: '/products?category=bopp-woven',
-    image: '/public/Homepage-banner2.jpeg',
+    image: '/Homepage-banner2.jpeg',
     imageAlt: 'Aerial view of colorful stacked shipping containers at a port',
     focalMobile: 'center 25%',
     focalTablet: 'center 35%',
@@ -51,7 +51,7 @@ const heroSlides = [
       'High-tensile ground covers, anti-hail nets, shade screens, and woven geotextiles for soil engineering.',
     cta: 'Discover Agro-Geo Products',
     link: '/products?category=agro-textile',
-    image: '/public/Homepage-banner3.jpeg',
+    image: '/Homepage-banner3.jpeg',
     imageAlt:
       'Cargo ship loaded with containers sailing across the open sea, representing global export reach',
     focalMobile: 'center 30%',
@@ -452,7 +452,7 @@ export default function Home() {
             <div className="flex justify-center order-2 lg:order-1">
               <div className="relative w-full rounded-2xl overflow-hidden border border-kp-blue-100 shadow-xl">
                 <img
-                  src="public\home-infrastructure.png"
+                  src="/home-infrastructure.png"
                   alt="KP Big Bags manufacturing facility exterior with FIBC production process icons: circular weaving, tape extrusion, sewing, printing, QC testing, warehouse, container loading and skilled workforce"
                   className="w-full h-auto object-cover"
                   loading="lazy"

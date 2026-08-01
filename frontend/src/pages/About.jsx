@@ -81,7 +81,7 @@ export default function About() {
             <div className="lg:col-span-5 flex justify-center">
               <div className="group relative w-full overflow-hidden rounded-2xl shadow-2xl aspect-[/2]">
                 <img
-                  src="/public/about us.png"
+                  src="/about us.png"
                   alt="KP Big Bags company profile and manufacturing overview"
                   className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 />
@@ -286,15 +286,15 @@ export default function About() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
               {
-                src: '/public/aboutus-Glimpse-1.png',
+                src: '/aboutus-Glimpse-1.png',
                 alt: 'Skilled workforce stitching and finishing FIBC jumbo bags at KP Big Bags',
               },
               {
-                src: '/public/aboutus-Glimpse-2.png',
+                src: '/aboutus-Glimpse-2.png',
                 alt: 'Precision extrusion and circular weaving machinery on the KP Big Bags factory floor',
               },
               {
-                src: '/public/aboutus-Glimpse-3.png',
+                src: '/aboutus-Glimpse-3.png',
                 alt: 'Global shipping of KP Big Bags FIBC containers via port and air freight',
               },
             ].map((img, idx) => (
