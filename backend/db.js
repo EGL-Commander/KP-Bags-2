@@ -1,3 +1,4 @@
+import { products } from "./productsData.js";
 import Database from "better-sqlite3";
 import bcrypt from "bcryptjs";
 
@@ -68,6 +69,43 @@ if (!adminCheck) {
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync("admin123", salt);
   db.prepare("INSERT INTO admins (username, password_hash) VALUES (?, ?)").run("admin", hash);
+}
+
+const productCount = db.prepare("SELECT COUNT(*) AS count FROM products").get();
+
+if (productCount.count === 0) {
+  const insert = db.prepare(`
+    INSERT INTO products (
+      slug,
+      name,
+      description,
+      category_id,
+      category_name,
+      image,
+      specifications,
+      applications
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  const insertMany = db.transaction((items) => {
+    for (const p of items) {
+      insert.run(
+        p.slug,
+        p.name,
+        p.description,
+        p.categoryId,
+        p.categoryName,
+        p.image,
+        JSON.stringify(p.specifications),
+        JSON.stringify(p.applications)
+      );
+    }
+  });
+
+  insertMany(products);
+
+  console.log(`Seeded ${products.length} products.`);
 }
 
 export default db;
