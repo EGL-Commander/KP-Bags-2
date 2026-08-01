@@ -37,7 +37,7 @@ export default function Footer() {
     },
     {
       id: 'Big Bags Uruguay',
-      name: 'Uruguay BIG BAGS', // TODO: replace with actual company name
+      name: 'BIG BAGS Uruguay', // TODO: replace with actual company name
       logo: '/logo 3.jpg', // TODO: replace with actual logo path
       address: 'Jose Pedro Varela 703, Apto 1,Las Piedras, Canelones, Uruguay', // TODO: replace with actual address
       mapUrl: '#',

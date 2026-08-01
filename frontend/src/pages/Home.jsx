@@ -22,7 +22,7 @@ const heroSlides = [
       'High-performance Flexible Intermediate Bulk Containers engineered for secure global dry bulk transport.',
     cta: 'Explore FIBC Bags',
     link: '/products?category=fibc',
-    image: '/Homepage-banner1.png',
+    image: '/update-banner-1.png',
     imageAlt:
       'Workers manufacturing and quality-checking FIBC jumbo bags on the KP Big Bags factory floor',
     focalMobile: 'center 20%',
