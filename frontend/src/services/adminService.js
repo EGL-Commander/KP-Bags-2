@@ -1,6 +1,6 @@
 const API_URL = `${import.meta.env.VITE_API_URL}/api/admin`;
 
-console.log(import.meta.env.VITE_API_URL);
+console.log("API URL =", API_URL);
 
 const getHeaders = () => {
   const token = localStorage.getItem("adminToken");
