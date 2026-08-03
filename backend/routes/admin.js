@@ -2,32 +2,36 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import multer from "multer";
-import path from "path";
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 import db from "../db.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { products as staticProducts } from "../productsData.js";
 
 const router = express.Router();
 
-// Multer Config
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    // Save to frontend public folder so it can be served directly
-    cb(null, path.join(process.cwd(), '../frontend/public'));
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, 'uploads/' + uniqueSuffix + path.extname(file.originalname));
-  }
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-const upload = multer({ storage: storage });
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "kp-bags",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+  },
+});
+
+const upload = multer({ storage });
 
 router.post("/upload-image", requireAdmin, upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "No image uploaded" });
   }
   // The URL path to save in the DB (relative to public folder)
-  const imageUrl = `/${req.file.filename}`;
+  const imageUrl = req.file.path;
   res.json({ imageUrl });
 });
 
