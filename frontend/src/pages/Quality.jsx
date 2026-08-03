@@ -106,19 +106,19 @@ export default function Quality() {
     {
       title: "Electronic Tensile Strength Test",
       desc: "Measures breaking load and elongation properties of tape, woven fabric, webbings, and sewing yarn to ensure maximum tensile performance and prevent transport failures.",
-      img: "/public/Electronic.png",
+      img: "/Electronic.png",
       alt: "Electronic Tensile Strength Test",
     },
     {
       title: "Accelerated UV Weathering Test",
       desc: "Simulates prolonged UV exposure using weathering chambers to verify polymer stabilization and long-term outdoor durability.",
-      img: "/public/Accelerated.png",
+      img: "/Accelerated.png",
       alt: "Accelerated UV Weathering Test",
     },
     {
       title: "Anti-Sifting & Leakage Test",
       desc: "Checks filler cords, felt cords, stitching quality, and dust-proof seams to ensure zero leakage of fine powders and chemicals.",
-      img: "/public/Anti-Sifting.png",
+      img: "/Anti-Sifting.png",
       alt: "Anti-Sifting Leakage Test",
     },
   ].map((test, idx) => (
@@ -204,7 +204,7 @@ export default function Quality() {
             <div className="flex justify-center">
               <div className="relative w-full rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src="/public/Cleanroom Manufacturing.jpg"
+                  src="/Cleanroom%20Manufacturing.jpg"
                   alt="Positive-pressure cleanroom production line for food-grade FIBC bag manufacturing"
                   loading="lazy"
                   className="w-full h-72 sm:h-96 object-cover"

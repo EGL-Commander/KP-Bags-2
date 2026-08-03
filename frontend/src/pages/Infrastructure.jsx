@@ -168,7 +168,7 @@ export default function Infrastructure() {
 
             <div className="rounded-3xl overflow-hidden shadow-2xl bg-slate-100">
               <img
-                src="/public/infra2.jpeg"
+                src="/infra2.jpeg"
                 alt="Positive-pressure cleanroom production line for food and pharma-grade FIBC bags"
                 loading="lazy"
                 className="w-full h-full object-cover"
