@@ -1,7 +1,9 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = `${import.meta.env.VITE_API_URL}/api`;
 
 export async function getProducts() {
-  const response = await fetch(`${API_URL}/products?t=${new Date().getTime()}`, { cache: 'no-store' });
+  const response = await fetch(`${API_URL}/products?t=${Date.now()}`, {
+    cache: "no-store",
+  });
 
   if (!response.ok) {
     throw new Error("Failed to fetch products");
@@ -11,7 +13,9 @@ export async function getProducts() {
 }
 
 export async function getProduct(slug) {
-  const response = await fetch(`${API_URL}/products/${slug}?t=${new Date().getTime()}`, { cache: 'no-store' });
+  const response = await fetch(`${API_URL}/products/${slug}?t=${Date.now()}`, {
+    cache: "no-store",
+  });
 
   if (!response.ok) {
     return null;
@@ -24,9 +28,9 @@ export async function submitInquiry(data) {
   const response = await fetch(`${API_URL}/inquiries`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
 
   return response.json();
