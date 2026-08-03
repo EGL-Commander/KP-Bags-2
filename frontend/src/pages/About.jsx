@@ -173,7 +173,7 @@ export default function About() {
         {
           title: 'ISO 9001:2015',
           subtitle: 'Quality Management System',
-          logos: ['certificates/QRO CERTIFICATE.png'],
+          logos: ['/certificates/QRO CERTIFICATE.png'],
           file: '/certificates/KP BIG BAGS QRO EGAC 2015.pdf',
         },
         {
