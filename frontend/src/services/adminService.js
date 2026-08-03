@@ -1,4 +1,4 @@
-const API_URL = `http://${window.location.hostname}:5000/api/admin`;
+const API_URL = `${import.meta.env.VITE_API_URL}/api/admin`;
 
 const getHeaders = () => {
   const token = localStorage.getItem("adminToken");

@@ -65,6 +65,14 @@ try {
 
 // Seed admin user
 const adminCheck = db.prepare("SELECT * FROM admins WHERE username = ?").get("admin");
+console.log("Admin Record:", adminCheck);
+
+if (adminCheck) {
+  console.log(
+    "Password matches:",
+    bcrypt.compareSync("admin123", adminCheck.password_hash)
+  );
+}
 if (!adminCheck) {
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync("admin123", salt);
