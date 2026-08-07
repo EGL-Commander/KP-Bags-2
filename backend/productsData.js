@@ -33,7 +33,7 @@ export const categories = [
   },
   {
     id: "bopp-woven",
-    name: "BOPP/Woven Sack Bags",
+    name: "Woven Sack Bags",
     description: "High-graphics B2B packaging bags made by laminating reverse-printed BOPP film onto woven PP fabric.",
     subcategories: [
       { slug: "bopp-gusseted", name: "BOPP Laminated Bags with Gussets", description: "Gusseted side-folds that expand for a rectangular block shape when filled, ideal for vertical shelf displays." },
@@ -94,14 +94,14 @@ export const categories = [
       { slug: "cross-laminated-tarpaulin", name: "Cross Laminated Tarpaulin", description: "State-of-the-art cross-directionally laminated film, virtually tear-proof, extremely light, and 100% recyclable." }
     ]
   },
-  {
-    id: "other-products",
-    name: "Other Packaging Products",
-    description: "Essential industrial accessories for securing, binding, strapping, and shipping bulk goods.",
-    subcategories: [
-      { slug: "stretch-film", name: "Stretch Film", description: "High-stretch LLDPE pallet wrap films protecting packed goods from moisture, dust, and shifting during transit." },
-    ]
-  }
+  // {
+  //   id: "other-products",
+  //   name: "Other Packaging Products",
+  //   description: "Essential industrial accessories for securing, binding, strapping, and shipping bulk goods.",
+  //   subcategories: [
+  //     { slug: "stretch-film", name: "Stretch Film", description: "High-stretch LLDPE pallet wrap films protecting packed goods from moisture, dust, and shifting during transit." },
+  //   ]
+  // }
 ];
 
 // Flat list of products for lookup
@@ -146,26 +146,26 @@ function getSpecsForProduct(slug) {
   } else if (slug.includes("geotextile") || slug.includes("geo")) {
     return {
       "Material": "Polypropylene (PP) High Tenacity yarns",
-      "Tensile Strength": "35 kN/m to 150 kN/m",
+      "Tensile Strength": "20 kN/m to 400 kN/m",
       "Permeability / Flow Rate": "10 L/m²/s to 80 L/m²/s",
       "UV Resistance": "> 70% retention after 500 hours exposure",
-      "Standard Width": "1.0m to 5.4m",
+      "Standard Width": "0.5m to 5.25m",
       "Roll Length": "100m to 200m or custom"
     };
   } else if (slug.includes("yarn")) {
     return {
       "Type": "High Tenacity Polypropylene Multifilament Yarn",
       "Denier Range": "600 Denier to 4000 Denier",
-      "Tenacity": "6.0 gpd to 7.2 gpd (grams per denier)",
+      "Tenacity": "4.0 gpd to 7.2 gpd (grams per denier)",
       "Intermingle Points": "15 to 30 knots per meter",
       "Twist range": "60 TPM to 120 TPM",
-      "UV Stabilization": "200 kly to 400 kly options available"
+      "UV Stabilization": "150 kly to 400 kly options available"
     };
   } else if (slug.includes("fabric")) {
     return {
       "Material": "100% Polypropylene (PP) Woven Matrix",
       "Weave Density": "8x8 to 15x15 tapes per inch",
-      "Width Range": "30 cm to 220 cm (circular) / 60 cm to 440 cm (flat)",
+      "Width Range": "30 cm to 220 cm / 60 cm to 440 cm (flat)",
       "GSM Range": "50 GSM to 250 GSM",
       "UV Stability": "Optional up to 300 kly",
       "Lamination": "Available (15 to 40 GSM coating weight)"

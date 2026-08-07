@@ -22,6 +22,17 @@ import { Layers, ShieldCheck, Cpu, Box, Globe } from 'lucide-react';
  * ============================================================================
  */
 
+const infrastructureImages = [
+  "/infra-gallery/1.jpg",
+  "/infra-gallery/2.jpg",
+  "/infra-gallery/3.jpg",
+  "/infra-gallery/4.jpg",
+  "/infra-gallery/5.jpg",
+  "/infra-gallery/6.jpg",
+  "/infra-gallery/7.jpg",
+  "/infra-gallery/8.jpg",
+];
+
 export default function Infrastructure() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -43,99 +54,183 @@ export default function Infrastructure() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left space-y-16">
 
           {/* Facility Summary */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7 space-y-6">
-              <span className="text-xs sm:text-sm font-extrabold text-kp-blue-600 uppercase tracking-widest block">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+            {/* Left */}
+            <div className="lg:col-span-8 space-y-6">
+
+              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-kp-blue-600">
                 Manufacturing Capabilities
               </span>
-              <h2 className="text-3xl font-extrabold text-kp-blue-900 leading-tight">
-                Modern Production Plant Engineered for High Capacity
+
+              <h2 className="text-3xl font-extrabold text-kp-blue-900">
+                Modern Production Plant & Infrastructure
               </h2>
-              <div className="text-sm sm:text-base text-slate-600 space-y-4 font-light leading-relaxed">
-                <p>
-                  Located in the premier industrial zone of Ahmedabad, Gujarat, India,{' '}
-                  <strong className="font-semibold text-kp-blue-950">KP BIG BAGS</strong> operates a
-                  highly integrated factory. Our infrastructure houses all critical operations under
-                  one roof, allowing us to maintain 100% control over quality logs, tape dimensions,
-                  and weaving densities.
-                </p>
 
+              <p className="text-slate-600 leading-8">
+                KP BIG BAGS operates a fully integrated manufacturing facility equipped
+                with modern extrusion, weaving, coating, cutting, printing and stitching
+                systems. Our infrastructure enables complete in-house production while
+                maintaining consistent quality standards and production efficiency.
+              </p>
 
-                <p>
-                  Our machinery lines are designed for energy efficiency and high throughput. We can
-                  process over{' '}
-                  <strong className="font-semibold text-kp-blue-950">12,000 metric tons</strong> of
-                  polypropylene polymer granules annually, converting them into finished packaging
-                  bags, heavy-duty tarpaulins, and agricultural fabrics.
-                </p>
-              </div>
             </div>
 
-            <div className="lg:col-span-5 flex flex-col gap-6">
-              <div className="bg-kp-blue-50/50 border border-kp-blue-100 rounded-3xl p-8 space-y-6 w-full shadow-inner">
-                <h3 className="text-lg font-bold text-kp-blue-900 border-b border-kp-blue-100 pb-3 uppercase tracking-wider">
-                  Factory Operations Metrics
-                </h3>
-                {[
-                  { icon: <Cpu className="w-5 h-5 text-kp-blue-600" />, label: 'Extrusion Capacity', value: '1,000+ Tons per Month' },
-                  { icon: <Layers className="w-5 h-5 text-kp-blue-600" />, label: 'Weaving Looms', value: '48+ High-Speed Looms' },
-                  { icon: <Box className="w-5 h-5 text-kp-blue-600" />, label: 'Sewing Machinery', value: '120+ Heavy-Duty Sewing Stations' },
-                  { icon: <Globe className="w-5 h-5 text-kp-blue-600" />, label: 'Port Proximity', value: 'Direct Highway connection to Mundra & Kandla' },
-                ].map((stat, idx) => (
-                  <div key={idx} className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-kp-blue-100/50 text-kp-blue-600 flex items-center justify-center shrink-0">
-                      {stat.icon}
-                    </div>
-                    <div className="min-w-0">
-                      <span className="text-[10px] text-slate-400 uppercase tracking-widest block">
-                        {stat.label}
-                      </span>
-                      <span className="text-sm font-bold text-kp-blue-950">{stat.value}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
 
-          {/* Machinery Details */}
+          {/* Infrastructure */}
           <div className="space-y-8">
-            <h3 className="text-2xl font-extrabold text-kp-blue-900 border-b border-kp-blue-100 pb-3 uppercase tracking-wider">
-              Integrated Production Stages
+
+            <h3 className="text-3xl font-extrabold text-kp-blue-900">
+              Infrastructure
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 gap-6">
+
               {[
                 {
-                  stage: '01. Extrusion & Slitting',
-                  title: 'High-Tenacity Tape Extrusion',
-                  desc: 'Polypropylene raw granules are melted and extruded into thin film sheets, which are cut into precise micro-tapes.',
+                  title:"Extrusion",
+                  text:"2 extrusion lines capable of producing polypropylene tapes of various weights and strengths with a combined production capacity of 600 kg/hour per line."
                 },
                 {
-                  stage: '02. Circular & Projectile Weaving',
-                  title: 'High-Speed Loom Weaving',
-                  desc: 'Spools are loaded onto specialized circular looms or flat projectile Sulzer looms, weaving patterns from 60 GSM to 250 GSM.',
+                  title:"Circular Looms",
+                  text:"49 circular looms capable of manufacturing woven fabrics of multiple widths, including two dedicated looms for ventilated fabrics."
                 },
                 {
-                  stage: '03. Converting & Sew Line',
-                  title: 'Automated Cutting & Clean Sewing',
-                  desc: 'Fabrics are cut to custom lengths and stitched in positive-pressure environments to prevent dust contamination.',
+                  title:"Belt Weaving",
+                  text:"10 needle looms along with a dedicated machine for dust-proof webbing production."
                 },
-              ].map((stage, idx) => (
+                {
+                  title:"Lamination",
+                  text:"90 mm extrusion coating plant with a maximum lamination width of 2.05 meters."
+                },
+                {
+                  title:"Fibrillator",
+                  text:"Dedicated fibrillator machines for polypropylene thread used in food-grade bags."
+                },
+                {
+                  title:"Fabric Cutting",
+                  text:'Three jumbo bag fabric cutting lines supporting 60" and 80" widths.'
+                },
+                {
+                  title:"Belt Cutting",
+                  text:"Three automatic belt/webbing cutting machines."
+                },
+                {
+                  title:"Printing",
+                  text:"Two jumbo bag printing machines with four-color capability and one roll-to-roll printing machine for woven sack bags."
+                },
+                {
+                  title:"Automatic Cutting",
+                  text:"Two automatic cutting and stitching machines."
+                },
+                {
+                  title:"Liner Plants",
+                  text:"Three multilayer extrusion plants for liner production and jumbo bag stitching."
+                },
+                {
+                  title:"Gluing Machine",
+                  text:"Dedicated gluing equipment for glue-fitted liners."
+                },
+                {
+                  title:"Metal Detector",
+                  text:"Metal detection systems for food-grade FIBC manufacturing."
+                },
+                {
+                  title:"Multifilament Plant",
+                  text:"Production capacity ranging from 650 Denier to 4000 Denier."
+                }
+
+              ].map((item,index)=>(
                 <div
-                  key={idx}
-                  className="bg-slate-50/50 border border-slate-100 rounded-2xl p-6 space-y-4 hover:bg-kp-blue-50/20 hover:border-kp-blue-100 hover:shadow-sm transition-all duration-300"
+                  key={index}
+                  className="rounded-2xl border border-kp-blue-100 bg-white p-6 hover:shadow-lg transition"
                 >
-                  <span className="text-xs font-bold text-kp-blue-500 uppercase tracking-wider block">
-                    {stage.stage}
-                  </span>
-                  <h4 className="text-lg font-bold text-kp-blue-900 leading-tight">{stage.title}</h4>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-light">
-                    {stage.desc}
+                  <h4 className="font-bold text-lg text-kp-blue-900 mb-3">
+                    {item.title}
+                  </h4>
+
+                  <p className="text-slate-600 leading-7 text-sm">
+                    {item.text}
                   </p>
                 </div>
               ))}
+
             </div>
+
+            <div className="grid lg:grid-cols-2 gap-8 mt-10">
+
+              <div className="rounded-2xl border border-kp-blue-100 p-8">
+
+                <h4 className="text-2xl font-bold text-kp-blue-900 mb-4">
+                  Clean Room Facility
+                </h4>
+
+                <p className="text-slate-600 leading-8">
+                  We manufacture FIBCs in a dedicated clean room facility designed to
+                  meet stringent customer requirements. The facility maintains hygienic
+                  conditions from fabric production to final packing and complies with
+                  international standards. It is equipped with ultrasonic cutting, air
+                  washing systems and metal detection equipment to ensure optimum food
+                  safety.
+                </p>
+
+              </div>
+
+              <div className="rounded-2xl border border-kp-blue-100 p-8">
+
+                <h4 className="text-2xl font-bold text-kp-blue-900 mb-4">
+                  Testing Laboratory
+                </h4>
+
+                <p className="text-slate-600 leading-8">
+                  Our laboratory performs breaking strength, elongation, UV resistance,
+                  load testing, dart impact testing, coefficient of friction testing,
+                  air permeability testing, conductivity testing and UN testing in
+                  accordance with national and international standards.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* Infrastructure Gallery */}
+          <div className="space-y-8">
+
+            <div className="text-center space-y-2">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-kp-blue-600 block">
+                Factory Gallery
+              </span>
+
+              <h3 className="text-3xl font-extrabold text-kp-blue-900 mt-2">
+                Manufacturing Infrastructure
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+
+              {infrastructureImages.map((image, index) => (
+
+                <div
+                  key={index}
+                  className="group overflow-hidden rounded-2xl border border-kp-blue-100 bg-white shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+                >
+
+                  <img
+                    src={image}
+                    alt={`Infrastructure ${index + 1}`}
+                    loading="lazy"
+                    className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+
+                </div>
+
+              ))}
+
+            </div>
+
           </div>
 
           {/* Clean Room Facility Details */}
@@ -147,12 +242,35 @@ export default function Infrastructure() {
               <h3 className="text-2xl font-bold text-kp-blue-900">
                 Food & Pharma Grade FIBC Cleanroom
               </h3>
-              <p className="text-sm text-slate-600 leading-relaxed font-light">
-                Our cleanroom is built with epoxy-coated seamless flooring, positive-pressure air
-                curtains, HEPA air filtration systems, and strict personnel hygiene locks. We maintain
-                zero-tolerance for foreign contaminants, ensuring full compliance for pharmaceutical
-                and food-grade packaging.
-              </p>
+              <div className="text-sm text-slate-600 leading-7 space-y-4">
+
+                <p>
+                KP BIG BAGS follows strict hygienic and housekeeping practices throughout the manufacturing process to ensure product quality and minimize contamination risks.
+                </p>
+
+                <ul className="list-disc pl-5 space-y-2">
+
+                <li>Clean and well-maintained production facilities.</li>
+
+                <li>Regular cleaning of production areas, machinery and equipment.</li>
+
+                <li>Controlled storage of raw materials and finished goods.</li>
+
+                <li>Mandatory use of Personal Protective Equipment (PPE) by production staff.</li>
+
+                <li>Routine housekeeping and waste disposal procedures.</li>
+
+                <li>Pest control measures in production and warehouse areas.</li>
+
+                <li>Quality inspections at every stage of production.</li>
+
+                <li>Safe handling and packaging practices during storage and shipment.</li>
+
+                <li>Compliance with ISO 9001:2015 Quality Management System requirements.</li>
+
+                </ul>
+
+                </div>
               <div className="flex items-center gap-3 pt-4">
                 <div className="p-3 rounded-xl bg-white border border-kp-blue-100 shadow-sm text-kp-blue-600">
                   <ShieldCheck className="w-6 h-6" />

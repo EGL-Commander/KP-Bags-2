@@ -321,7 +321,16 @@ export default function Home() {
                 Pioneering Industrial Bulk Packaging Globally
               </h2>
               <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-light">
-                <strong className="font-semibold text-kp-blue-950">KP BIG BAGS</strong> is an ISO 9001:2015 certified company located in Ahmedabad, Gujarat, India, and one of the most reputable manufacturers of FIBC bags and industrial packaging products. We serve critical industries like food, chemicals, construction, and minerals with high quality, durability, and customization.
+                <strong className="font-semibold text-kp-blue-950">KP BIG BAGS</strong> is an ISO 9001:2015 certified company located in Ahmedabad, Gujarat, India, and one of the most reputable manufacturers of FIBC bags and industrial packaging products. Common Types of FIBC Bags by Application
+U-Panel Bags – General-purpose bulk materials.
+Circular Bags – Powder and granular products.
+Baffle (Q) Bags – Maximize container and warehouse space.
+Ventilated Bags – Potatoes, onions, firewood, and other produce requiring airflow.
+UN Certified Bags – Hazardous materials.
+Conductive (Type C) & Antistatic (Type D) Bags – Flammable powders and explosive environments.
+Food-Grade FIBCs – Food ingredients and agricultural products.
+
+FIBC bags are widely used because they are lightweight, cost-effective, reusable (where appropriate), recyclable, and capable of carrying loads ranging from 500 kg to 2,000 kg or more, depending on their design and safety factor. and minerals with high quality, durability, and customization.
               </p>
 
               {/* Highlights cards */}
