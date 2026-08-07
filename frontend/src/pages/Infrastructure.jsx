@@ -23,14 +23,14 @@ import { Layers, ShieldCheck, Cpu, Box, Globe } from 'lucide-react';
  */
 
 const infrastructureImages = [
-  "/infra-gallery/1.jpg",
-  "/infra-gallery/2.jpg",
-  "/infra-gallery/3.jpg",
-  "/infra-gallery/4.jpg",
-  "/infra-gallery/5.jpg",
-  "/infra-gallery/6.jpg",
-  "/infra-gallery/7.jpg",
-  "/infra-gallery/8.jpg",
+  "/infra-gallery/1.jpeg",
+  "/infra-gallery/2.jpeg",
+  "/infra-gallery/3.jpeg",
+  "/infra-gallery/4.jpeg",
+  "/infra-gallery/5.jpeg",
+  "/infra-gallery/6.jpeg",
+  "/infra-gallery/7.jpeg",
+  "/infra-gallery/8.jpeg",
 ];
 
 export default function Infrastructure() {
