@@ -85,7 +85,7 @@ export default function Infrastructure() {
               Infrastructure
             </h3>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <ul className="grid md:grid-cols-2 gap-x-10 gap-y-5">
 
               {[
                 {
@@ -142,21 +142,20 @@ export default function Infrastructure() {
                 }
 
               ].map((item,index)=>(
-                <div
+                <li
                   key={index}
-                  className="rounded-2xl border border-kp-blue-100 bg-white p-6 hover:shadow-lg transition"
+                  className="flex gap-3 items-start"
                 >
-                  <h4 className="font-bold text-lg text-kp-blue-900 mb-3">
-                    {item.title}
-                  </h4>
+                  <span className="mt-2.5 h-1.5 w-1.5 rounded-full bg-kp-blue-600 flex-shrink-0" />
 
                   <p className="text-slate-600 leading-7 text-sm">
+                    <span className="font-bold text-kp-blue-900">{item.title}: </span>
                     {item.text}
                   </p>
-                </div>
+                </li>
               ))}
 
-            </div>
+            </ul>
 
             <div className="grid lg:grid-cols-2 gap-8 mt-10">
 

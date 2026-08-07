@@ -2,7 +2,12 @@ import { products } from "./productsData.js";
 import Database from "better-sqlite3";
 import bcrypt from "bcryptjs";
 
-const db = new Database("kp_bags.db");
+const dbPath = process.env.RAILWAY_VOLUME_MOUNT_PATH
+  ? `${process.env.RAILWAY_VOLUME_MOUNT_PATH}/kp_bags.db`
+  : "kp_bags.db";
+
+const db = new Database(dbPath);
+console.log("Using database at:", dbPath);
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS inquiries (
