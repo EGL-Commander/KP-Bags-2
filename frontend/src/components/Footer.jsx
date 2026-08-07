@@ -93,12 +93,20 @@ export default function Footer() {
               </svg>
             </a>
             <a
-              href="https://api.whatsapp.com/send?phone=918840575264&text=KP%20Big%20Bags"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-kp-blue-900 border border-kp-blue-100 hover:bg-green-500 hover:text-white transition-all duration-300 hover:scale-105"
-            >
-              <MessageCircle className="w-4 h-4 fill-current text-green-500 hover:text-white" />
+                href="https://api.whatsapp.com/send?phone=918840575264"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group w-9 h-9 rounded-full bg-white flex items-center justify-center border border-kp-blue-100 hover:bg-green-500 transition-all duration-300 hover:scale-105"
+                aria-label="WhatsApp"
+              >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32"
+                className="w-5 h-5 text-green-500 group-hover:text-white transition-colors duration-300"
+                fill="currentColor"
+              >
+              <path d="M16.004 3C8.82 3 3 8.82 3 16.004c0 2.282.6 4.51 1.738 6.48L3 29l6.688-1.718a13.01 13.01 0 006.316 1.622C23.18 28.904 29 23.184 29 16.004 29 8.82 23.18 3 16.004 3zm0 23.575a10.51 10.51 0 01-5.36-1.47l-.384-.228-3.968 1.02 1.058-3.87-.25-.397a10.49 10.49 0 01-1.616-5.626c0-5.81 4.727-10.538 10.52-10.538 5.797 0 10.52 4.728 10.52 10.538 0 5.81-4.723 10.57-10.52 10.57zm5.77-7.878c-.316-.158-1.87-.923-2.16-1.03-.29-.106-.5-.158-.71.158-.21.317-.815 1.03-.998 1.24-.184.21-.368.237-.684.079-.316-.158-1.334-.49-2.54-1.564-.938-.836-1.57-1.87-1.754-2.186-.184-.317-.02-.488.138-.646.143-.142.316-.368.474-.553.158-.184.21-.316.316-.526.105-.21.053-.395-.027-.553-.079-.158-.71-1.712-.972-2.344-.256-.615-.517-.53-.71-.54h-.605c-.21 0-.553.079-.842.395-.29.316-1.105 1.08-1.105 2.634s1.132 3.054 1.29 3.265c.158.21 2.228 3.4 5.4 4.766.755.326 1.344.52 1.803.666.758.242 1.448.208 1.993.126.608-.09 1.87-.764 2.134-1.5.263-.737.263-1.37.184-1.5-.079-.132-.289-.21-.605-.368z" />
+              </svg>
             </a>
             <a
               href="https://www.instagram.com/kpbigbags?utm_source=qr&igsh=MWdhNDBqbjF1cWFjZA=="
