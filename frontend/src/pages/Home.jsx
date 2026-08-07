@@ -330,11 +330,7 @@ UN Certified Bags – Hazardous materials.
 Conductive (Type C) & Antistatic (Type D) Bags – Flammable powders and explosive environments.
 Food-Grade FIBCs – Food ingredients and agricultural products.
 
-<<<<<<< Updated upstream
 FIBC bags are widely used because they are lightweight, cost-effective, reusable (where appropriate), recyclable, and capable of carrying loads ranging from 500 kg to 2,000 kg or more, depending on their design and safety factor. and minerals with high quality, durability, and customization.
-=======
-FIBC bags are widely used because they are lightweight, cost-effective, reusable (where appropriate), recyclable, and capable of carrying loads ranging from 500 kg to 2,000 kg or more, depending on their design and safety factor, and minerals with high quality, durability, and customization.
->>>>>>> Stashed changes
               </p>
 
               {/* Highlights cards */}
