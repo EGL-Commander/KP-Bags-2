@@ -239,9 +239,6 @@ export default function Infrastructure() {
               <span className="text-xs font-bold text-kp-blue-600 uppercase tracking-widest block">
                 Hygienic Standards
               </span>
-              <h3 className="text-2xl font-bold text-kp-blue-900">
-                Food & Pharma Grade FIBC Cleanroom
-              </h3>
               <div className="text-sm text-slate-600 leading-7 space-y-4">
 
                 <p>
