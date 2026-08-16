@@ -149,3 +149,8 @@ Desktop.ini
 
 *.bak
 *.backup
+
+
+# Git diff & .patch files
+*.diff
+*.patch

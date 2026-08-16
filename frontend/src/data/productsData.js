@@ -27,7 +27,6 @@ export const categories = [
       { slug: "builder-bag", name: "Builder Bag", description: "Heavy-duty, budget-friendly open-top bags designed for bulk sand, aggregate, gravel, and construction waste." },
       { slug: "ventilated-fibc", name: "Ventilated FIBC Bags", description: "Woven with breathable air strips to prevent moisture accumulation and rot, perfect for agricultural produce like potatoes and onions." },
       { slug: "container-liner", name: "Container Liner Bags", description: "Protective fabric linings designed to convert standard shipping containers into bulk dry cargo transport systems." },
-      { slug: "one-two-loop-bag", name: "One/Two Loop Bag", description: "Cost-effective, single or double lifting loop design commonly used in fertilizer, seed, and agricultural sectors." },
       { slug: "leno-mesh-bag", name: "Leno Mesh Bag", description: "High-permeability mesh bags designed for packaging fresh produce, offering visibility and max ventilation." }
     ]
   },
@@ -124,7 +123,7 @@ export const products = categories.reduce((acc, cat) => {
 
 function getSpecsForProduct(slug) {
   if (slug.includes("fibc") || slug.includes("bag") || slug.includes("panel") || slug.includes("loop") || slug.includes("baffle")) {
-    return {
+    const specs = {
       "Material": "100% Virgin Polypropylene (PP), UV Stabilized",
       "Safe Working Load (SWL)": "500 Kg to 2000 Kg",
       "Safety Factor (SF)": "5:1 (Single trip) or 6:1 (Multi-trip)",
@@ -134,6 +133,24 @@ function getSpecsForProduct(slug) {
       "Printing": "Up to 4 colors with customized B2B branding",
       "Certifications": "ISO 9001:2015, UN Certified for Hazardous materials, Food Grade cleanroom"
     };
+
+    // Leno Mesh Bag: lighter-duty SWL range
+    if (slug.includes("leno-mesh")) {
+      specs["Safe Working Load (SWL)"] = "25 Kg to 50 Kg";
+    }
+
+    // Baffle Bag / Q Bag: no liner option
+    if (slug.includes("baffle")) {
+      delete specs["Liner"];
+    }
+
+    // Ventilated FIBC: no liner, no coating
+    if (slug.includes("ventilated-fibc")) {
+      delete specs["Liner"];
+      specs["Lamination"] = "Uncoated";
+    }
+
+    return specs;
   } else if (slug.includes("bopp")) {
     return {
       "Material": "BOPP (Biaxially Oriented Polypropylene) + Woven PP Fabric",
