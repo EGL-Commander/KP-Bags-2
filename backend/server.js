@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
+import dns from dns
 import db from "./db.js";
 import { products } from "./productsData.js";
 import adminRoutes from "./routes/admin.js";
@@ -94,11 +95,15 @@ app.post("/api/inquiries", async (req, res) => {
       message
     );
 
+    const { address: smtpIPv4 } = await dns.promises.lookup(process.env.SMTP_HOST, { family: 4 });
+
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
+      host: smtpIPv4,
       port: process.env.SMTP_PORT,
       secure: false,
-      family: 4, // force IPv4 - Railway's network can't route to Gmail's IPv6 address
+      tls: {
+        servername: process.env.SMTP_HOST // keeps TLS cert validation matched to the real hostname
+      },
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS
