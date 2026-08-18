@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
-import dns from dns
+import dns from "dns";
 import db from "./db.js";
 import { products } from "./productsData.js";
 import adminRoutes from "./routes/admin.js";
