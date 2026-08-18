@@ -98,6 +98,7 @@ app.post("/api/inquiries", async (req, res) => {
       host: process.env.SMTP_HOST,
       port: process.env.SMTP_PORT,
       secure: false,
+      family: 4, // force IPv4 - Railway's network can't route to Gmail's IPv6 address
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS
