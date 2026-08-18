@@ -1,8 +1,8 @@
 PORT=5000
 
-COMPANY_EMAIL=randombulshishgo@gmail.com
+COMPANY_EMAIL=sales@kpbigbags.com
 
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=randombulshishgo@gmail.com
-SMTP_PASS=grun cbow chuv eqgg
+SMTP_USER=sales@kpbigbags.com
+SMTP_PASS=xtzdjtpjravbsvjt

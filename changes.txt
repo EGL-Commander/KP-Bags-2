@@ -1,0 +1,35 @@
+removed one two bag :-
+
+    specs :-
+
+        {
+        "Material": "100% Virgin Polypropylene (PP), UV Stabilized",
+        "Safe Working Load (SWL)": "500 Kg to 2500 Kg",
+        "Safety Factor (SF)": "5:1 (Single trip) or 6:1 (Multi-trip)",
+        "Fabric Weight (GSM)": "120 GSM to 240 GSM",
+        "Lamination": "Uncoated or Coated (Internal/External)",
+        "Liner": "Form-fit, tubular, suspended, or conductive liners available",
+        "Printing": "Up to 4 colors with customized B2B branding",
+        "Certifications": "ISO 9001:2015, UN Certified for Hazardous materials, Food Grade cleanroom"
+        }
+
+    Applications :-
+
+        [
+        "Bulk chemical powders and granular substances",
+        "Agricultural grains, seeds, fertilizer, and animal feed",
+        "Construction sand, gravel, cement, and concrete premix",
+        "Mining minerals, ores, coal, and crushed aggregates",
+        "Food grade starch, milk powder, sugar, and flour packaging"
+        ]
+    
+
+    Description :-
+
+        Cost-effective, single or double lifting loop design commonly used in fertilizer, seed, and agricultural sectors.
+
+    Image URL :-
+
+        https://res.cloudinary.com/bk1vu5yx/image/upload/v1786353883/kp-bags/t2q78foutff5fl2c5xke.png
+    
+    
