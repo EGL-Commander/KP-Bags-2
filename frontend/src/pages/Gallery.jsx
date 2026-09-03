@@ -43,7 +43,7 @@ export default function Gallery() {
   const [loadedImgs, setLoadedImgs] = useState({});
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/gallery?t=${new Date().getTime()}`, { cache: 'no-store' })
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/gallery?t=${new Date().getTime()}`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => setGalleryItems(data))
       .catch(err => console.error("Error fetching gallery:", err));

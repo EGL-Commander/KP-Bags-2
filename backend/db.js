@@ -1,5 +1,6 @@
-import { products } from "./productsData.js";
 import Database from "better-sqlite3";
+import { products } from "./productsData.js";
+import { defaultGalleryItems } from "./galleryData.js";
 import bcrypt from "bcryptjs";
 
 const dbPath = process.env.RAILWAY_VOLUME_MOUNT_PATH
@@ -119,6 +120,24 @@ if (productCount.count === 0) {
   insertMany(products);
 
   console.log(`Seeded ${products.length} products.`);
+}
+
+const galleryCount = db.prepare("SELECT COUNT(*) AS count FROM gallery").get();
+
+if (galleryCount.count === 0) {
+  const insertGallery = db.prepare(`
+    INSERT INTO gallery (type, title, desc, src, alt)
+    VALUES (?, ?, ?, ?, ?)
+  `);
+
+  const insertGalleryItems = db.transaction((items) => {
+    for (const item of items) {
+      insertGallery.run(item.type, item.title, item.desc, item.src, item.alt);
+    }
+  });
+
+  insertGalleryItems(defaultGalleryItems);
+  console.log(`Seeded ${defaultGalleryItems.length} gallery items.`);
 }
 
 export default db;

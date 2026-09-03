@@ -1,14 +1,26 @@
+import "dotenv/config";
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import multer from "multer";
+import fs from "fs";
+import path from "path";
 import { v2 as cloudinary } from "cloudinary";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
+import pkg from "multer-storage-cloudinary";
 import db from "../db.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { products as staticProducts } from "../productsData.js";
+import { defaultGalleryItems } from "../galleryData.js";
+
+const CloudinaryStorage = pkg.CloudinaryStorage || pkg.default || pkg;
 
 const router = express.Router();
+
+const hasCloudinaryConfig = Boolean(
+  process.env.CLOUDINARY_CLOUD_NAME &&
+  process.env.CLOUDINARY_API_KEY &&
+  process.env.CLOUDINARY_API_SECRET
+);
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -16,23 +28,55 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "kp-bags",
-    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+const uploadDirectory = path.resolve(process.cwd(), "../frontend/public/uploads");
+fs.mkdirSync(uploadDirectory, { recursive: true });
+
+const storage = hasCloudinaryConfig
+  ? new CloudinaryStorage({
+      cloudinary,
+      params: {
+        folder: "kp-bags",
+        allowed_formats: ["jpg", "jpeg", "png", "webp"],
+      },
+    })
+  : multer.diskStorage({
+      destination: uploadDirectory,
+      filename: (_req, file, callback) => {
+        const extension = path.extname(file.originalname).toLowerCase();
+        const baseName = path.basename(file.originalname, extension)
+          .replace(/[^a-z0-9]+/gi, "-")
+          .replace(/^-|-$/g, "")
+          .toLowerCase() || "image";
+        callback(null, `${Date.now()}-${baseName}${extension}`);
+      },
+    });
+
+const upload = multer({
+  storage,
+  fileFilter: (_req, file, callback) => {
+    if (file.mimetype.startsWith("image/")) {
+      callback(null, true);
+      return;
+    }
+    callback(new Error("Only image files are allowed"));
   },
 });
-
-const upload = multer({ storage });
 
 router.post("/upload-image", requireAdmin, upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "No image uploaded" });
   }
-  // The URL path to save in the DB (relative to public folder)
-  const imageUrl = req.file.path;
+  const imageUrl = hasCloudinaryConfig
+    ? req.file.path
+    : `/uploads/${req.file.filename}`;
   res.json({ imageUrl });
+});
+
+router.use((error, _req, res, next) => {
+  if (error instanceof multer.MulterError || error.message === "Only image files are allowed") {
+    return res.status(400).json({ message: error.message });
+  }
+  next(error);
 });
 
 // --- Auth ---
@@ -286,18 +330,6 @@ router.delete("/products/:slug", requireAdmin, (req, res) => {
 });
 
 // --- Gallery Management ---
-
-const defaultGalleryItems = [
-  { type: 'bags', title: 'Type-A Standard FIBC Bags', desc: 'Heavy-duty 1000kg load capacity standard bags stored in warehouse.', src: '/fibc-type-a.jpeg', alt: 'Type-A standard FIBC jumbo bag' },
-  { type: 'bags', title: 'Baffle Q-Bags Stack', desc: 'Baffle bags maintaining neat square profiles under test loads.', src: '/baffle-bag.jpeg', alt: 'Baffle FIBC Q-bag diagram' },
-  { type: 'bags', title: 'Ventilated Agricultural Bags', desc: 'Ventilated FIBC bags packed with crops showing breathability strips.', src: '/Ventilated Agricultural Bags.png', alt: 'Ventilated mesh FIBC bags' },
-  { type: 'factory', title: 'High-Speed Circular Looms', desc: 'Weaving area with circular looms running PP spools continuously.', src: '/high-speed-circular-loom.jpg', alt: 'High-speed circular looms' },
-  { type: 'factory', title: 'Tape Extrusion Extruder', desc: 'Polypropylene melt extrusion and slitting line winding tape rolls.', src: '/Tape Extrusion Extruder.png', alt: 'Tape extrusion line' },
-  { type: 'factory', title: 'Positive Pressure Sew Block', desc: 'Cleanroom sewing lines with HEPA filtration and personnel hoods.', src: '/Positive Pressure Sew Block.png', alt: 'Cleanroom sewing line' },
-  { type: 'testing', title: 'Tensile Strength Test Bench', desc: 'Calibrated electronic mechanical tester testing loop seam breakage.', src: '/Tensile Strength Test Bench.png', alt: 'Tensile strength testing' },
-  { type: 'testing', title: 'UV Weather-Ometer Cabinet', desc: 'Accelerated solar exposure chambers testing fabric UV retention.', src: '/UV Weather-Ometer Cabinet.png', alt: 'UV weather-ometer' },
-  { type: 'shipping', title: 'Container Stuffing Dock', desc: 'Loading pallets of vacuum-compressed jumbo bags into export containers.', src: '/Container Stuffing Dock.png', alt: 'Container stuffing' }
-];
 
 const ensureGalleryInDB = () => {
   const count = db.prepare("SELECT COUNT(*) as count FROM gallery").get().count;

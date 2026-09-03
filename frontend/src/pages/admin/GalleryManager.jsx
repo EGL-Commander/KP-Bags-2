@@ -83,7 +83,7 @@ export default function GalleryManager() {
       const data = await uploadImage(file);
       setFormData({ ...formData, src: data.imageUrl, alt: file.name.split('.')[0] });
     } catch (error) {
-      alert("Failed to upload image.");
+      alert(error.message || "Failed to upload image.");
     } finally {
       setUploading(false);
     }

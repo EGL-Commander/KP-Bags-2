@@ -1,4 +1,4 @@
-const API_URL = `${import.meta.env.VITE_API_URL}/api/admin`;
+const API_URL = `${import.meta.env.VITE_API_URL || ""}/api/admin`;
 
 console.log("API URL =", API_URL);
 
@@ -118,7 +118,8 @@ export const uploadImage = async (file) => {
 
   if (!response.ok) {
     if (response.status === 401) logout();
-    throw new Error("Failed to upload image");
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message || "Failed to upload image");
   }
 
   return response.json();
