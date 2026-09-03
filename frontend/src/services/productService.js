@@ -33,5 +33,11 @@ export async function submitInquiry(data) {
     body: JSON.stringify(data),
   });
 
-  return response.json();
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || "Failed to submit inquiry");
+  }
+
+  return result;
 }

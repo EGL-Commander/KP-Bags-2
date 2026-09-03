@@ -82,6 +82,7 @@ export default function ProductDetail() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setErrorMsg('');
 
     const {
       name,
@@ -111,56 +112,45 @@ export default function ProductDetail() {
       return;
     }
 
-    try {
-      // 1. Save to Database for Admin panel
-      const result = await submitInquiry({
-        productSlug: product.slug,
-        name,
-        email,
-        phone,
-        company,
-        quantity,
-        message
-      });
+    // 1. Compile message content for WhatsApp
+    const messageText = `*New Product Inquiry - KP BIG BAGS*\n\n` +
+                        `*Product:* ${product.name} (${product.slug})\n` +
+                        `*Name:* ${name}\n` +
+                        `*Email:* ${email}\n` +
+                        `*Phone:* ${phone}\n` +
+                        `*Company:* ${company || 'N/A'}\n` +
+                        `*Qty Required:* ${quantity || 'N/A'}\n` +
+                        `*Message:* ${message}`;
 
-      if (!result.success) {
-        setErrorMsg(result.message);
-        return;
-      }
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=918840575264&text=${encodeURIComponent(messageText)}`;
 
-      // 2. Compile message content for WhatsApp
-      const messageText = `*New Product Inquiry - KP BIG BAGS*\n\n` +
-                          `*Product:* ${product.name} (${product.slug})\n` +
-                          `*Name:* ${name}\n` +
-                          `*Email:* ${email}\n` +
-                          `*Phone:* ${phone}\n` +
-                          `*Company:* ${company || 'N/A'}\n` +
-                          `*Qty Required:* ${quantity || 'N/A'}\n` +
-                          `*Message:* ${message}`;
+    // 2. Open WhatsApp in new tab
+    window.open(whatsappUrl, '_blank');
 
-      const whatsappUrl = `https://api.whatsapp.com/send?phone=918840575264&text=${encodeURIComponent(messageText)}`;
-      
-      // Redirect to WhatsApp in a new tab
-      window.open(whatsappUrl, '_blank');
+    // 3. Send to Database + SMTP in background (fail-safe)
+    submitInquiry({
+      productSlug: product.slug,
+      name,
+      email,
+      phone,
+      company,
+      quantity,
+      message
+    }).catch(err => {
+      console.warn("Backend inquiry submission notice:", err);
+    });
 
-      // 3. Reset form data and show success message
-      setFormData(prev => ({
-        ...prev,
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        quantity: '',
-        message: `Hello, I am interested in your ${product.name}. Please send me the technical drawings, specifications sheet, and B2B wholesale pricing parameters.`
-      }));
-      setIsSubmitted(true);
-      setErrorMsg('');
-
-    } catch (error) {
-      setErrorMsg(
-        'Unable to submit your inquiry. Please try again later.'
-      );
-    }
+    // 4. Reset form data to fresh state & show success confirmation
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      company: '',
+      quantity: '',
+      message: `Hello, I am interested in your ${product.name}. Please send me the technical drawings, specifications sheet, and B2B wholesale pricing parameters.`
+    });
+    setIsSubmitted(true);
+    setErrorMsg('');
   };
 
   return (

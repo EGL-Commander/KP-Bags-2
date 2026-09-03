@@ -41,45 +41,43 @@ export default function Contact() {
       return;
     }
 
-    try {
-      // 1. Save to Database for Admin panel
-      await submitInquiry({
-        productSlug: 'General Contact: ' + (subject || 'Inquiry'),
-        name,
-        email,
-        phone,
-        company: '',
-        quantity: '',
-        message
-      });
+    // 1. Compile message content for WhatsApp
+    const messageText = `*New B2B Inquiry - KP BIG BAGS*\n\n` +
+                        `*Name:* ${name}\n` +
+                        `*Email:* ${email}\n` +
+                        `*Phone:* ${phone}\n` +
+                        `*Subject:* ${subject || 'B2B Wholesale Inquiry'}\n` +
+                        `*Message:* ${message}`;
 
-      // 2. Compile message content for WhatsApp
-      const messageText = `*New B2B Inquiry - KP BIG BAGS*\n\n` +
-                          `*Name:* ${name}\n` +
-                          `*Email:* ${email}\n` +
-                          `*Phone:* ${phone}\n` +
-                          `*Subject:* ${subject || 'B2B Wholesale Inquiry'}\n` +
-                          `*Message:* ${message}`;
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=918840575264&text=${encodeURIComponent(messageText)}`;
 
-      const whatsappUrl = `https://api.whatsapp.com/send?phone=918840575264&text=${encodeURIComponent(messageText)}`;
-      
-      // Redirect to WhatsApp in a new tab
-      window.open(whatsappUrl, '_blank');
+    // 2. Redirect to WhatsApp in a new tab
+    window.open(whatsappUrl, '_blank');
 
-      // 3. Reset Form Data and show success
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: 'B2B Wholesale Inquiry',
-        message: ''
-      });
+    // 3. Save to Database & Send Email via SMTP in background (fail-safe)
+    submitInquiry({
+      productSlug: 'General Contact: ' + (subject || 'Inquiry'),
+      name,
+      email,
+      phone,
+      company: '',
+      quantity: '',
+      message
+    }).catch(err => {
+      console.warn("Backend contact form submission notice:", err);
+    });
 
-      setIsSubmitted(true);
-      setErrorMsg('');
-    } catch (error) {
-      setErrorMsg('Something went wrong. Please try again.');
-    }
+    // 4. Reset Form Data and show success confirmation
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      subject: 'B2B Wholesale Inquiry',
+      message: ''
+    });
+
+    setIsSubmitted(true);
+    setErrorMsg('');
   };
 
   return (

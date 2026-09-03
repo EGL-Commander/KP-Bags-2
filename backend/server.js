@@ -75,10 +75,12 @@ app.post("/api/inquiries", async (req, res) => {
 
   if (!productSlug || !name || !email || !phone || !message) {
     return res.status(400).json({
+      success: false,
       message: "Please fill all required fields."
     });
   }
 
+  // 1. Save to database first (critical step)
   try {
     db.prepare(`
       INSERT INTO inquiries
@@ -93,33 +95,60 @@ app.post("/api/inquiries", async (req, res) => {
       quantity || "",
       message
     );
-
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: false,
-      family: 4,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS
-      },
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 10000
+  } catch (dbError) {
+    console.error("DB save failed:", dbError);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while submitting the inquiry."
     });
+  }
 
-    await transporter.verify();
-    console.log("SMTP connection successful");
+  // 2. Try sending email via SMTP (non-blocking — inquiry is already saved)
+  try {
+    const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
+    const smtpPort = Number(process.env.SMTP_PORT) || 587;
+    const smtpUser = process.env.SMTP_USER || "sales@kpbigbags.com";
+    const smtpPass = process.env.SMTP_PASS || "aogwripjwsyfqtfv";
+    const companyEmail = process.env.COMPANY_EMAIL || "sales@kpbigbags.com";
 
-    await transporter.sendMail({
-      from: process.env.SMTP_USER,
-      to: process.env.COMPANY_EMAIL,
-      replyTo: email,
-      subject: `New Product Inquiry - ${productSlug}`,
-      text: `
+    if (smtpUser && smtpPass) {
+      const isGmail = smtpHost.includes("gmail") || smtpUser.endsWith("@gmail.com") || smtpUser.endsWith("@kpbigbags.com");
+
+      const transportOptions = isGmail
+        ? {
+            service: "gmail",
+            auth: {
+              user: smtpUser,
+              pass: smtpPass
+            },
+            tls: {
+              rejectUnauthorized: false
+            }
+          }
+        : {
+            host: smtpHost,
+            port: smtpPort,
+            secure: smtpPort === 465,
+            auth: {
+              user: smtpUser,
+              pass: smtpPass
+            },
+            tls: {
+              rejectUnauthorized: false
+            }
+          };
+
+      const transporter = nodemailer.createTransport(transportOptions);
+
+      await transporter.sendMail({
+        from: smtpUser,
+        to: companyEmail,
+        replyTo: email,
+        subject: `New B2B Inquiry - ${productSlug}`,
+        text: `
 New B2B Product Inquiry
 
-Product: ${productSlug}
+Product/Subject: ${productSlug}
 
 Name: ${name}
 Email: ${email}
@@ -127,23 +156,25 @@ Phone: ${phone}
 Company: ${company || "N/A"}
 Quantity: ${quantity || "N/A"}
 
-Requirements:
+Requirements / Message:
 ${message}
-      `
-    });
+        `
+      });
 
-    res.json({
-      success: true,
-      message: "Inquiry submitted successfully."
-    });
-
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      message: "Something went wrong while submitting the inquiry."
-    });
+      console.log("Email sent successfully for inquiry:", productSlug);
+    } else {
+      console.warn("SMTP credentials missing — skipping email notification");
+    }
+  } catch (emailError) {
+    // SMTP failure should NOT block the inquiry response
+    console.error("SMTP email notification notice:", emailError.message);
   }
+
+  // 3. Always return success since DB save succeeded
+  res.json({
+    success: true,
+    message: "Inquiry submitted successfully."
+  });
 });
 
 app.listen(process.env.PORT || 5000, () => {
