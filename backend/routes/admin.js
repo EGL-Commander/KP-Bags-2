@@ -31,44 +31,30 @@ if (hasCloudinaryConfig) {
   });
 }
 
-const uploadDirectory = path.resolve(process.cwd(), "../frontend/public/uploads");
+import { fileURLToPath } from "url";
 
-// Cloudinary is the production storage. Local storage remains available for local
-// development only when Cloudinary credentials are intentionally omitted.
-if (!hasCloudinaryConfig && process.env.NODE_ENV === "production") {
-  console.warn("Cloudinary is not configured. Image uploads are disabled in production.");
-}
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-if (!hasCloudinaryConfig) {
-  fs.mkdirSync(uploadDirectory, { recursive: true });
-}
+const uploadDirectory = path.resolve(__dirname, "../../frontend/public/uploads");
+fs.mkdirSync(uploadDirectory, { recursive: true });
 
-const storage = hasCloudinaryConfig
-  ? new CloudinaryStorage({
-      cloudinary,
-      params: {
-        folder: "kp-bags",
-        allowed_formats: ["jpg", "jpeg", "png", "webp"],
-        resource_type: "image",
-        transformation: [
-          { width: 2000, height: 2000, crop: "limit", quality: "auto", fetch_format: "auto" },
-        ],
-      },
-    })
-  : multer.diskStorage({
-      destination: uploadDirectory,
-      filename: (_req, file, callback) => {
-        const extension = path.extname(file.originalname).toLowerCase();
-        const baseName = path.basename(file.originalname, extension)
-          .replace(/[^a-z0-9]+/gi, "-")
-          .replace(/^-|-$/g, "")
-          .toLowerCase() || "image";
-        callback(null, `${Date.now()}-${baseName}${extension}`);
-      },
-    });
+const diskStorage = multer.diskStorage({
+  destination: (_req, _file, callback) => {
+    callback(null, uploadDirectory);
+  },
+  filename: (_req, file, callback) => {
+    const extension = path.extname(file.originalname).toLowerCase();
+    const baseName = path.basename(file.originalname, extension)
+      .replace(/[^a-z0-9]+/gi, "-")
+      .replace(/^-|-$/g, "")
+      .toLowerCase() || "image";
+    callback(null, `${Date.now()}-${baseName}${extension}`);
+  },
+});
 
 const upload = multer({
-  storage,
+  storage: diskStorage,
   limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: (_req, file, callback) => {
     const allowedTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
@@ -80,21 +66,31 @@ const upload = multer({
   },
 });
 
-router.post("/upload-image", requireAdmin, (req, res, next) => {
-  if (process.env.NODE_ENV === "production" && !hasCloudinaryConfig) {
-    return res.status(503).json({ message: "Cloudinary image storage is not configured" });
-  }
-
-  upload.single("image")(req, res, (error) => {
-    if (error) return next(error);
+router.post("/upload-image", requireAdmin, (req, res) => {
+  upload.single("image")(req, res, async (error) => {
+    if (error) {
+      return res.status(400).json({ message: error.message || "Failed to process image" });
+    }
     if (!req.file) {
       return res.status(400).json({ message: "No image uploaded" });
     }
 
-    const imageUrl = hasCloudinaryConfig ? req.file.path : `/uploads/${req.file.filename}`;
-    const publicId = hasCloudinaryConfig ? req.file.filename : null;
+    const localUrl = `/uploads/${req.file.filename}`;
 
-    res.json({ imageUrl, publicId });
+    if (hasCloudinaryConfig) {
+      try {
+        const cloudResult = await cloudinary.uploader.upload(req.file.path, {
+          folder: "kp-bags",
+          resource_type: "image"
+        });
+        return res.json({ imageUrl: cloudResult.secure_url, publicId: cloudResult.public_id });
+      } catch (cloudErr) {
+        console.warn("Cloudinary upload notice (using local storage fallback):", cloudErr.message);
+        return res.json({ imageUrl: localUrl, publicId: null });
+      }
+    }
+
+    res.json({ imageUrl: localUrl, publicId: null });
   });
 });
 

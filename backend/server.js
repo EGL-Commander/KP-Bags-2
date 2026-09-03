@@ -6,12 +6,20 @@ import db from "./db.js";
 import { products } from "./productsData.js";
 import adminRoutes from "./routes/admin.js";
 
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const uploadsPath = path.resolve(__dirname, "../frontend/public/uploads");
+
 dotenv.config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static(uploadsPath));
 
 app.use("/api/admin", adminRoutes);
 
